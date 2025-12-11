@@ -14,10 +14,10 @@ const getInitialBirthDate = (): string => {
 };
 
 const initialProfile: BabyProfile = {
-  name: 'João',
-  birthDate: getInitialBirthDate(),
-  themeColor: 'blue',
-  gender: 'male',
+    name: 'João',
+    birthDate: getInitialBirthDate(),
+    themeColor: 'blue',
+    gender: 'male',
 };
 
 // Color mapping for categories to mimic the colorful iOS icons
@@ -123,7 +123,7 @@ const generateMockGrowthData = (birthDate: string): LoggedEvent[] => {
 
         for (let i = 0; i < 12; i++) {
             const date = new Date(startDate.getFullYear(), startDate.getMonth() + i, 15);
-             if (isNaN(date.getTime())) continue;
+            if (isNaN(date.getTime())) continue;
 
             data.push({
                 id: `weight-${i}`,
@@ -160,9 +160,9 @@ const generateMockSleepData = (): LoggedEvent[] => {
         events.push({
             id: `mock-sleep-night-${i}`,
             type: 'sleep',
-            timestamp: `${dateStr}T07:00:00`, 
-            startTime: `${dateStr}T20:00:00`, 
-            endTime: `${dateStr}T07:00:00`, 
+            timestamp: `${dateStr}T07:00:00`,
+            startTime: `${dateStr}T20:00:00`,
+            endTime: `${dateStr}T07:00:00`,
             sleepType: 'night',
             value: parseFloat(nightDuration.toFixed(1)),
             unit: 'horas',
@@ -170,18 +170,18 @@ const generateMockSleepData = (): LoggedEvent[] => {
             notes: `Sono noturno com ${nightAwakenings} despertares`
         });
 
-        const numNaps = 2 + Math.floor(Math.random() * 3); 
-        
+        const numNaps = 2 + Math.floor(Math.random() * 3);
+
         for (let j = 0; j < numNaps; j++) {
-            const napDuration = 0.5 + Math.random(); 
-            const hour = 9 + (j * 3) + Math.floor(Math.random()); 
-            
+            const napDuration = 0.5 + Math.random();
+            const hour = 9 + (j * 3) + Math.floor(Math.random());
+
             events.push({
                 id: `mock-sleep-nap-${i}-${j}`,
                 type: 'sleep',
                 timestamp: `${dateStr}T${hour.toString().padStart(2, '0')}:00:00`,
                 startTime: `${dateStr}T${hour.toString().padStart(2, '0')}:00:00`,
-                endTime: `${dateStr}T${(hour + 1).toString().padStart(2, '0')}:30:00`, 
+                endTime: `${dateStr}T${(hour + 1).toString().padStart(2, '0')}:30:00`,
                 sleepType: 'nap',
                 value: parseFloat(napDuration.toFixed(1)),
                 unit: 'horas',
@@ -210,44 +210,44 @@ const initialDocuments: BabyDocument[] = [
 
 // -- HELPER FUNCTIONS -- //
 const calculateAge = (birthDateString: string, targetDateString: string = new Date().toISOString()): string => {
-  if (!birthDateString) return "";
-  const birthDate = new Date(birthDateString.replace(/-/g, '/'));
-  const targetDate = new Date(targetDateString.replace(/-/g, '/'));
-  
-  if (isNaN(birthDate.getTime()) || isNaN(targetDate.getTime())) return "";
+    if (!birthDateString) return "";
+    const birthDate = new Date(birthDateString.replace(/-/g, '/'));
+    const targetDate = new Date(targetDateString.replace(/-/g, '/'));
 
-  let years = targetDate.getFullYear() - birthDate.getFullYear();
-  let months = targetDate.getMonth() - birthDate.getMonth();
-  let days = targetDate.getDate() - birthDate.getDate();
+    if (isNaN(birthDate.getTime()) || isNaN(targetDate.getTime())) return "";
 
-  if (days < 0) {
-    months--;
-    const lastDayOfPrevMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 0).getDate();
-    days += lastDayOfPrevMonth;
-  }
+    let years = targetDate.getFullYear() - birthDate.getFullYear();
+    let months = targetDate.getMonth() - birthDate.getMonth();
+    let days = targetDate.getDate() - birthDate.getDate();
 
-  if (months < 0) {
-    years--;
-    months += 12;
-  }
-  
-  if (years === 0 && months === 0 && days === 0) return "No dia do nascimento";
-  if (years < 0) return "Pré-nascimento"; 
+    if (days < 0) {
+        months--;
+        const lastDayOfPrevMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 0).getDate();
+        days += lastDayOfPrevMonth;
+    }
 
-  let result = "";
-  if (years > 0) result += `${years} ano${years > 1 ? 's' : ''} `;
-  if (months > 0) result += `${months} m `;
-  if (days > 0) result += `${days} d`;
-  return result.trim();
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    if (years === 0 && months === 0 && days === 0) return "No dia do nascimento";
+    if (years < 0) return "Pré-nascimento";
+
+    let result = "";
+    if (years > 0) result += `${years} ano${years > 1 ? 's' : ''} `;
+    if (months > 0) result += `${months} m `;
+    if (days > 0) result += `${days} d`;
+    return result.trim();
 };
 
 const calculateAgeInMonths = (birthDateString: string, targetDateString: string = new Date().toISOString()): number => {
     if (!birthDateString) return 0;
     const birthDate = new Date(birthDateString.replace(/-/g, '/'));
     const targetDate = new Date(targetDateString.replace(/-/g, '/'));
-    
+
     if (isNaN(birthDate.getTime()) || isNaN(targetDate.getTime())) return 0;
-    
+
     const diffTime = targetDate.getTime() - birthDate.getTime();
     return Math.max(0, diffTime / (1000 * 60 * 60 * 24 * 30.44));
 };
@@ -256,7 +256,7 @@ const calculateDuration = (start: string, end: string): string => {
     if (!start || !end) return "0h 0m";
     const [startH, startM] = start.split(':').map(Number);
     const [endH, endM] = end.split(':').map(Number);
-    
+
     let diffM = (endH * 60 + endM) - (startH * 60 + startM);
     if (diffM < 0) diffM += 24 * 60; // Handle overnight
 
@@ -268,43 +268,43 @@ const calculateDuration = (start: string, end: string): string => {
 // -- UI COMPONENTS -- //
 
 const Header: FC<{ title: string; onBack?: () => void; rightAction?: React.ReactNode }> = ({ title, onBack, rightAction }) => (
-  <div className="flex items-center justify-between p-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 sticky top-0 z-10 transition-colors">
-    <div className="flex items-center">
-        {onBack && (
-        <button onClick={onBack} className="mr-3 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300">
-            <Icon name="chevron_left" className="w-6 h-6" />
-        </button>
-        )}
-        <h1 className="text-xl font-bold text-gray-800 dark:text-white transition-colors">{title}</h1>
+    <div className="flex items-center justify-between p-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 sticky top-0 z-10 transition-colors">
+        <div className="flex items-center">
+            {onBack && (
+                <button onClick={onBack} className="mr-3 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300">
+                    <Icon name="chevron_left" className="w-6 h-6" />
+                </button>
+            )}
+            <h1 className="text-xl font-bold text-gray-800 dark:text-white transition-colors">{title}</h1>
+        </div>
+        {rightAction}
     </div>
-    {rightAction}
-  </div>
 );
 
 const BottomNav: FC<{ active: Screen; setActive: (screen: Screen) => void, profile: BabyProfile }> = ({ active, setActive, profile }) => {
-  const navItems: { screen: Screen; icon: string; label: string }[] = [
-    { screen: 'home', icon: 'home', label: 'Início' },
-    { screen: 'diary', icon: 'diary', label: 'Diário' },
-    { screen: 'stats', icon: 'stats', label: 'Gráficos' },
-    { screen: 'settings', icon: 'settings', label: 'Ajustes' },
-  ];
+    const navItems: { screen: Screen; icon: string; label: string }[] = [
+        { screen: 'home', icon: 'home', label: 'Início' },
+        { screen: 'diary', icon: 'diary', label: 'Diário' },
+        { screen: 'stats', icon: 'stats', label: 'Gráficos' },
+        { screen: 'settings', icon: 'settings', label: 'Ajustes' },
+    ];
 
-  const activeColor = profile.themeColor === 'pink' ? 'text-pink-500' : profile.themeColor === 'purple' ? 'text-purple-500' : profile.themeColor === 'green' ? 'text-green-500' : 'text-blue-500';
+    const activeColor = profile.themeColor === 'pink' ? 'text-pink-500' : profile.themeColor === 'purple' ? 'text-purple-500' : profile.themeColor === 'green' ? 'text-green-500' : 'text-blue-500';
 
-  return (
-    <div className="grid grid-cols-4 gap-1 pb-safe bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.02)] transition-colors">
-      {navItems.map(item => (
-        <button 
-            key={item.screen} 
-            onClick={() => setActive(item.screen)} 
-            className={`flex flex-col items-center justify-center pt-3 pb-1 transition-colors ${active === item.screen ? activeColor : 'text-gray-400 dark:text-gray-500'}`}
-        >
-          <Icon name={item.icon} className={`w-6 h-6 mb-1 ${active === item.screen ? 'stroke-[2px]' : 'stroke-[1.5px]'}`} />
-          <span className="text-[10px] font-medium">{item.label}</span>
-        </button>
-      ))}
-    </div>
-  );
+    return (
+        <div className="grid grid-cols-4 gap-1 pb-safe bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.02)] transition-colors">
+            {navItems.map(item => (
+                <button
+                    key={item.screen}
+                    onClick={() => setActive(item.screen)}
+                    className={`flex flex-col items-center justify-center pt-3 pb-1 transition-colors ${active === item.screen ? activeColor : 'text-gray-400 dark:text-gray-500'}`}
+                >
+                    <Icon name={item.icon} className={`w-6 h-6 mb-1 ${active === item.screen ? 'stroke-[2px]' : 'stroke-[1.5px]'}`} />
+                    <span className="text-[10px] font-medium">{item.label}</span>
+                </button>
+            ))}
+        </div>
+    );
 };
 
 // -- HELPER FOR SHORTCUTS -- //
@@ -315,14 +315,14 @@ const HomeShortcutsControl: FC<{
     widgets: DashboardWidget[],
     setWidgets: (w: DashboardWidget[]) => void
 }> = ({ eventType, pinnedMilestones, setPinnedMilestones, widgets, setWidgets }) => {
-    
+
     // Check if it's pinned to milestones (top bar)
     const isPinnedToMilestones = pinnedMilestones.includes(eventType);
-    
+
     // Determine widget type based on event category
     const def = EVENT_DEFINITIONS.find(d => d.type === eventType);
     const widgetType: WidgetType = def?.category === 'milestone' ? 'last_milestone' : 'quick_actions';
-    
+
     // Check if the relevant widget exists in summary
     const isPinnedToSummary = widgets.some(w => w.type === widgetType);
 
@@ -347,7 +347,7 @@ const HomeShortcutsControl: FC<{
         <div className="mt-4 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
             <h4 className="text-xs font-bold uppercase text-gray-400 mb-3 tracking-wider">Atalhos da Tela Inicial</h4>
             <div className="flex gap-3">
-                <button 
+                <button
                     onClick={toggleMilestone}
                     className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border-2 transition-all ${isPinnedToMilestones ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'border-transparent bg-white dark:bg-gray-700 text-gray-500'}`}
                 >
@@ -356,7 +356,7 @@ const HomeShortcutsControl: FC<{
                     </div>
                     <span className="text-sm font-bold">Fixar em Marcos</span>
                 </button>
-                <button 
+                <button
                     onClick={toggleSummary}
                     className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border-2 transition-all ${isPinnedToSummary ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' : 'border-transparent bg-white dark:bg-gray-700 text-gray-500'}`}
                 >
@@ -391,7 +391,7 @@ const MeasurementsModal: FC<{
         if (isOpen) {
             const now = new Date();
             setDate(now.toISOString().split('T')[0]);
-            setTime(now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+            setTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
             setWeight('');
             setHeight('');
             setNotes('');
@@ -403,7 +403,7 @@ const MeasurementsModal: FC<{
     const handleSave = () => {
         const events: LoggedEvent[] = [];
         const timestamp = new Date(`${date}T${time}`).toISOString();
-        
+
         if (weight) {
             events.push({
                 id: Date.now().toString(),
@@ -433,7 +433,7 @@ const MeasurementsModal: FC<{
     return (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
-                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <button onClick={onClose} className="text-gray-500">Cancelar</button>
                     <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
                         <Icon name="measurements" className="w-5 h-5 text-green-500" />
@@ -444,16 +444,16 @@ const MeasurementsModal: FC<{
                 <div className="p-6 overflow-y-auto space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
-                             <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-full mb-2 text-green-500">
+                            <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-full mb-2 text-green-500">
                                 <Icon name="weight" className="w-5 h-5" />
-                             </div>
-                             <h3 className="text-sm font-bold text-gray-500 mb-2">PESO</h3>
-                             <div className="relative w-full">
-                                <input 
-                                    type="number" 
-                                    value={weight} 
+                            </div>
+                            <h3 className="text-sm font-bold text-gray-500 mb-2">PESO</h3>
+                            <div className="relative w-full">
+                                <input
+                                    type="number"
+                                    value={weight}
                                     onChange={e => setWeight(e.target.value)}
-                                    placeholder="0.00" 
+                                    placeholder="0.00"
                                     step="0.01"
                                     className="w-full text-center text-3xl font-bold bg-transparent border-none outline-none text-gray-800 dark:text-white placeholder-gray-300"
                                 />
@@ -462,16 +462,16 @@ const MeasurementsModal: FC<{
                         </div>
 
                         <div className="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
-                             <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-2 text-blue-500">
+                            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-2 text-blue-500">
                                 <Icon name="length" className="w-5 h-5" />
-                             </div>
-                             <h3 className="text-sm font-bold text-gray-500 mb-2">ALTURA</h3>
-                             <div className="relative w-full">
-                                <input 
-                                    type="number" 
-                                    value={height} 
+                            </div>
+                            <h3 className="text-sm font-bold text-gray-500 mb-2">ALTURA</h3>
+                            <div className="relative w-full">
+                                <input
+                                    type="number"
+                                    value={height}
                                     onChange={e => setHeight(e.target.value)}
-                                    placeholder="0.0" 
+                                    placeholder="0.0"
                                     step="0.1"
                                     className="w-full text-center text-3xl font-bold bg-transparent border-none outline-none text-gray-800 dark:text-white placeholder-gray-300"
                                 />
@@ -485,8 +485,8 @@ const MeasurementsModal: FC<{
                         <input type="time" value={time} onChange={e => setTime(e.target.value)} className="w-24 p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
                     </div>
 
-                    <textarea 
-                        value={notes} 
+                    <textarea
+                        value={notes}
                         onChange={e => setNotes(e.target.value)}
                         placeholder="Observações..."
                         className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm min-h-[80px]"
@@ -524,12 +524,12 @@ const PlagiocephalyInfo: FC<{ currentAsymmetry?: number, currentAge?: number }> 
                 Protocolo Plagiocefalia
             </h4>
             <div className="h-56 w-full mb-4 bg-white dark:bg-gray-900 rounded-lg p-2">
-                 <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                         <XAxis dataKey="age" type="number" domain={[0, 18]} label={{ value: 'Meses', position: 'insideBottomRight', offset: -5, fontSize: 10 }} allowDataOverflow={false} ticks={[0, 5, 10, 15, 18]} />
                         <YAxis type="number" domain={[0, 25]} label={{ value: 'mm', angle: -90, position: 'insideLeft', fontSize: 10 }} />
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ccc" />
-                        
+
                         {/* Stacked Areas for Zones */}
                         <Area type="stepAfter" dataKey="mild" stackId="1" stroke="none" fill="#4ade80" fillOpacity={0.5} name="Leve" />
                         <Area type="stepAfter" dataKey="medium" stackId="1" stroke="none" fill="#facc15" fillOpacity={0.5} name="Médio" />
@@ -537,26 +537,26 @@ const PlagiocephalyInfo: FC<{ currentAsymmetry?: number, currentAge?: number }> 
 
                         {/* Current User Point */}
                         {pointData.length > 0 && (
-                             <Scatter data={pointData} fill="#3b82f6" shape="circle">
+                            <Scatter data={pointData} fill="#3b82f6" shape="circle">
                                 <LabelList dataKey="value" position="top" style={{ fontSize: '10px', fontWeight: 'bold', fill: '#3b82f6' }} formatter={(val: number) => `${val}mm`} />
-                             </Scatter>
+                            </Scatter>
                         )}
                         <ReferenceArea x1={0} x2={18} y1={0} y2={25} fill="transparent" stroke="none" />
                     </ComposedChart>
-                 </ResponsiveContainer>
-                 <p className="text-[10px] text-center text-gray-400 mt-1">Índice de assimetria (mm) x Idade (meses)</p>
+                </ResponsiveContainer>
+                <p className="text-[10px] text-center text-gray-400 mt-1">Índice de assimetria (mm) x Idade (meses)</p>
             </div>
-            
+
             <div className="space-y-2 text-xs text-gray-600 dark:text-gray-300">
                 <div className="flex items-center gap-2">
                     <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                     <span><strong>Severo:</strong> Encaminhamento para neurocirurgião (Capacete).</span>
                 </div>
-                 <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                     <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                     <span><strong>Médio:</strong> Almofada Mimos e tratamento postural.</span>
                 </div>
-                 <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                     <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                     <span><strong>Leve:</strong> Acompanhamento.</span>
                 </div>
@@ -599,7 +599,7 @@ const BreastfeedingModal: FC<{
             if (initialEvent) {
                 const dt = new Date(initialEvent.timestamp);
                 setDate(dt.toISOString().split('T')[0]);
-                setTime(dt.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setNotes(initialEvent.notes || '');
                 setSide(initialEvent.breastfeedingSide || 'left');
                 if (initialEvent.breastfeedingDuration) {
@@ -612,7 +612,7 @@ const BreastfeedingModal: FC<{
             } else {
                 const now = new Date();
                 setDate(now.toISOString().split('T')[0]);
-                setTime(now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setDuration(0);
                 setIsRunning(false);
                 setSide('left');
@@ -655,8 +655,8 @@ const BreastfeedingModal: FC<{
 
     return (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
-             <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
-                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+            <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <button onClick={onClose} className="text-gray-500">Cancelar</button>
                     <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
                         <Icon name="breastfeeding" className="w-5 h-5 text-orange-500" />
@@ -666,8 +666,8 @@ const BreastfeedingModal: FC<{
                 </div>
 
                 <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-none sm:rounded-none w-full">
-                     <button onClick={() => setMode('timer')} className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider transition-all ${mode === 'timer' ? 'bg-white dark:bg-gray-700 shadow text-orange-500' : 'text-gray-400'}`}>Cronômetro</button>
-                     <button onClick={() => setMode('manual')} className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider transition-all ${mode === 'manual' ? 'bg-white dark:bg-gray-700 shadow text-orange-500' : 'text-gray-400'}`}>Manual</button>
+                    <button onClick={() => setMode('timer')} className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider transition-all ${mode === 'timer' ? 'bg-white dark:bg-gray-700 shadow text-orange-500' : 'text-gray-400'}`}>Cronômetro</button>
+                    <button onClick={() => setMode('manual')} className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider transition-all ${mode === 'manual' ? 'bg-white dark:bg-gray-700 shadow text-orange-500' : 'text-gray-400'}`}>Manual</button>
                 </div>
 
                 <div className="p-6 flex flex-col items-center space-y-6 overflow-y-auto">
@@ -696,9 +696,9 @@ const BreastfeedingModal: FC<{
                     ) : (
                         <div className="w-full">
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Duração (minutos)</label>
-                            <input 
-                                type="number" 
-                                value={manualDuration} 
+                            <input
+                                type="number"
+                                value={manualDuration}
                                 onChange={e => setManualDuration(e.target.value)}
                                 placeholder="0"
                                 className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-xl text-3xl font-bold text-center text-gray-800 dark:text-white outline-none focus:ring-2 ring-orange-500"
@@ -710,20 +710,20 @@ const BreastfeedingModal: FC<{
                     <div className="w-full">
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Lado</label>
                         <div className="flex gap-2">
-                             {[
-                                 { id: 'left', label: 'Esquerda', emoji: '⬅' },
-                                 { id: 'right', label: 'Direita', emoji: '➡' },
-                                 { id: 'both', label: 'Ambos', emoji: '↔️' }
-                             ].map(opt => (
-                                 <button 
-                                     key={opt.id} 
-                                     onClick={() => setSide(opt.id as any)}
-                                     className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${side === opt.id ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20' : 'border-gray-200 dark:border-gray-700'}`}
-                                 >
-                                     <span className="text-2xl mb-1">{opt.emoji}</span>
-                                     <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300">{opt.label}</span>
-                                 </button>
-                             ))}
+                            {[
+                                { id: 'left', label: 'Esquerda', emoji: '⬅' },
+                                { id: 'right', label: 'Direita', emoji: '➡' },
+                                { id: 'both', label: 'Ambos', emoji: '↔️' }
+                            ].map(opt => (
+                                <button
+                                    key={opt.id}
+                                    onClick={() => setSide(opt.id as any)}
+                                    className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${side === opt.id ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20' : 'border-gray-200 dark:border-gray-700'}`}
+                                >
+                                    <span className="text-2xl mb-1">{opt.emoji}</span>
+                                    <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300">{opt.label}</span>
+                                </button>
+                            ))}
                         </div>
                     </div>
 
@@ -735,8 +735,8 @@ const BreastfeedingModal: FC<{
 
                     {/* Notes */}
                     <div className="w-full">
-                         <textarea 
-                            value={notes} 
+                        <textarea
+                            value={notes}
                             onChange={e => setNotes(e.target.value)}
                             placeholder="Comentários..."
                             className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm min-h-[80px]"
@@ -745,9 +745,9 @@ const BreastfeedingModal: FC<{
 
                     {/* Home Shortcuts */}
                     <div className="w-full">
-                        <HomeShortcutsControl 
-                            eventType="breastfeeding" 
-                            pinnedMilestones={pinnedMilestones} 
+                        <HomeShortcutsControl
+                            eventType="breastfeeding"
+                            pinnedMilestones={pinnedMilestones}
                             setPinnedMilestones={setPinnedMilestones}
                             widgets={widgets}
                             setWidgets={setWidgets}
@@ -755,23 +755,23 @@ const BreastfeedingModal: FC<{
                     </div>
 
                     {initialEvent && onDelete && (
-                        <button 
-                            onClick={() => { onDelete(initialEvent.id); onClose(); }} 
+                        <button
+                            onClick={() => { onDelete(initialEvent.id); onClose(); }}
                             className="w-full py-3 mt-4 text-red-500 font-medium border border-red-200 dark:border-red-900 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition"
                         >
                             Excluir Registro
                         </button>
                     )}
                 </div>
-             </div>
+            </div>
         </div>
     )
 }
 
-const EventModal: FC<{ 
-    isOpen: boolean, 
-    onClose: () => void, 
-    onSave: (event: LoggedEvent) => void, 
+const EventModal: FC<{
+    isOpen: boolean,
+    onClose: () => void,
+    onSave: (event: LoggedEvent) => void,
     onDelete?: (id: string) => void,
     initialEvent: LoggedEvent | null,
     profile: BabyProfile,
@@ -784,7 +784,7 @@ const EventModal: FC<{
     const [time, setTime] = useState('');
     const [notes, setNotes] = useState('');
     const [eventType, setEventType] = useState<EventType>('custom_milestone');
-    
+
     // Diaper Specifics
     const [diaperPee, setDiaperPee] = useState(false);
     const [diaperPoop, setDiaperPoop] = useState(false);
@@ -805,10 +805,10 @@ const EventModal: FC<{
         if (isOpen && initialEvent) {
             const dt = new Date(initialEvent.timestamp);
             setDate(dt.toISOString().split('T')[0]);
-            setTime(dt.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+            setTime(dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
             setNotes(initialEvent.notes || '');
             setEventType(initialEvent.type);
-            
+
             if (initialEvent.type === 'diaper') {
                 const content = initialEvent.diaperContent || [];
                 setDiaperPee(content.includes('pee'));
@@ -829,7 +829,7 @@ const EventModal: FC<{
         } else if (isOpen) {
             const now = new Date();
             setDate(now.toISOString().split('T')[0]);
-            setTime(now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+            setTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
             setNotes('');
             setDiaperPee(false);
             setDiaperPoop(false);
@@ -882,7 +882,7 @@ const EventModal: FC<{
         onClose();
     };
 
-     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
@@ -896,7 +896,7 @@ const EventModal: FC<{
     return (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-opacity">
             <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
-                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <button onClick={onClose} className="text-gray-500 dark:text-gray-400 p-2">Cancelar</button>
                     <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
                         <Icon name={definition.icon} className="w-5 h-5 text-blue-500" />
@@ -904,24 +904,24 @@ const EventModal: FC<{
                     </h2>
                     <button onClick={handleSave} className="text-blue-500 font-bold p-2">Salvar</button>
                 </div>
-                
+
                 <div className="p-6 overflow-y-auto space-y-6">
                     {/* Date Picker */}
                     <div className="flex gap-4">
                         <div className="flex-1">
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Data</label>
-                            <input 
-                                type="date" 
-                                value={date} 
+                            <input
+                                type="date"
+                                value={date}
                                 onChange={e => setDate(e.target.value)}
                                 className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-xl text-lg font-semibold text-gray-800 dark:text-white outline-none focus:ring-2 ring-blue-500"
                             />
                         </div>
                         <div>
-                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Hora</label>
-                             <input 
-                                type="time" 
-                                value={time} 
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Hora</label>
+                            <input
+                                type="time"
+                                value={time}
                                 onChange={e => setTime(e.target.value)}
                                 className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-xl text-lg font-semibold text-gray-800 dark:text-white outline-none focus:ring-2 ring-blue-500"
                             />
@@ -934,18 +934,18 @@ const EventModal: FC<{
                     {/* Head Circumference Info Toggle & Input */}
                     {eventType === 'head_circumference' && (
                         <div>
-                             <div className="mb-4">
+                            <div className="mb-4">
                                 <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Assimetria (mm)</label>
-                                <input 
-                                    type="number" 
-                                    value={plagioAsymmetry} 
+                                <input
+                                    type="number"
+                                    value={plagioAsymmetry}
                                     onChange={e => setPlagioAsymmetry(e.target.value)}
                                     placeholder="Ex: 4"
                                     className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-xl text-lg font-semibold text-gray-800 dark:text-white outline-none focus:ring-2 ring-blue-500"
                                 />
                             </div>
 
-                            <button 
+                            <button
                                 onClick={() => setShowPlagioInfo(!showPlagioInfo)}
                                 className="w-full py-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl font-bold flex items-center justify-center gap-2"
                             >
@@ -959,23 +959,23 @@ const EventModal: FC<{
                     {/* Diaper Specific Fields (Unchanged) */}
                     {eventType === 'diaper' && (
                         <div>
-                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Conteúdo</label>
-                             <div className="flex gap-4">
-                                 <button 
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Conteúdo</label>
+                            <div className="flex gap-4">
+                                <button
                                     onClick={() => setDiaperPee(!diaperPee)}
                                     className={`flex-1 p-4 rounded-xl border-2 transition-all flex flex-col items-center ${diaperPee ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900/20' : 'border-gray-200 dark:border-gray-700'}`}
-                                 >
-                                     <span className="text-4xl mb-2">💧</span>
-                                     <span className={`text-sm font-bold ${diaperPee ? 'text-yellow-600 dark:text-yellow-400' : 'text-gray-400'}`}>Xixi</span>
-                                 </button>
-                                 <button 
+                                >
+                                    <span className="text-4xl mb-2">💧</span>
+                                    <span className={`text-sm font-bold ${diaperPee ? 'text-yellow-600 dark:text-yellow-400' : 'text-gray-400'}`}>Xixi</span>
+                                </button>
+                                <button
                                     onClick={() => setDiaperPoop(!diaperPoop)}
                                     className={`flex-1 p-4 rounded-xl border-2 transition-all flex flex-col items-center ${diaperPoop ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/20' : 'border-gray-200 dark:border-gray-700'}`}
-                                 >
-                                     <span className="text-4xl mb-2">💩</span>
-                                     <span className={`text-sm font-bold ${diaperPoop ? 'text-orange-600 dark:text-orange-400' : 'text-gray-400'}`}>Cocô</span>
-                                 </button>
-                             </div>
+                                >
+                                    <span className="text-4xl mb-2">💩</span>
+                                    <span className={`text-sm font-bold ${diaperPoop ? 'text-orange-600 dark:text-orange-400' : 'text-gray-400'}`}>Cocô</span>
+                                </button>
+                            </div>
                         </div>
                     )}
 
@@ -1000,21 +1000,21 @@ const EventModal: FC<{
                     {/* Media Attachments (Prominent for Stroll/Bath/Diaper) */}
                     {(['stroll', 'bath', 'diaper', 'custom_milestone'].includes(eventType) || definition.category === 'milestone') && (
                         <div>
-                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Foto do Momento</label>
-                             {photoPreview ? (
-                                 <div className="relative rounded-xl overflow-hidden h-48 w-full group">
-                                     <img src={photoPreview} className="w-full h-full object-cover" />
-                                     <button onClick={() => setPhotoPreview(null)} className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"><Icon name="close" className="w-4 h-4" /></button>
-                                 </div>
-                             ) : (
-                                 <div className="flex space-x-4">
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Foto do Momento</label>
+                            {photoPreview ? (
+                                <div className="relative rounded-xl overflow-hidden h-48 w-full group">
+                                    <img src={photoPreview} className="w-full h-full object-cover" />
+                                    <button onClick={() => setPhotoPreview(null)} className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"><Icon name="close" className="w-4 h-4" /></button>
+                                </div>
+                            ) : (
+                                <div className="flex space-x-4">
                                     <button onClick={() => fileInputRef.current?.click()} className="flex-1 py-8 bg-gray-100 dark:bg-gray-800 rounded-xl flex flex-col items-center justify-center text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 transition border-2 border-dashed border-gray-300 dark:border-gray-700">
                                         <Icon name="camera" className="w-8 h-8 mb-2" />
                                         <span className="text-xs font-bold">Adicionar Foto</span>
                                     </button>
                                     <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
-                                 </div>
-                             )}
+                                </div>
+                            )}
                         </div>
                     )}
 
@@ -1023,26 +1023,26 @@ const EventModal: FC<{
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
                             {eventType === 'diaper' ? 'Observações (Cor, textura)' : 'Comentários'}
                         </label>
-                        <textarea 
-                            value={notes} 
+                        <textarea
+                            value={notes}
                             onChange={e => setNotes(e.target.value)}
                             placeholder="Escreva aqui..."
                             className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-xl text-gray-800 dark:text-white outline-none focus:ring-2 ring-blue-500 min-h-[100px] resize-none"
                         />
                     </div>
-                    
+
                     {/* Home Shortcuts */}
-                    <HomeShortcutsControl 
-                        eventType={eventType} 
-                        pinnedMilestones={pinnedMilestones} 
+                    <HomeShortcutsControl
+                        eventType={eventType}
+                        pinnedMilestones={pinnedMilestones}
                         setPinnedMilestones={setPinnedMilestones}
                         widgets={widgets}
                         setWidgets={setWidgets}
                     />
 
                     {onDelete && (
-                        <button 
-                            onClick={() => { onDelete(initialEvent.id); onClose(); }} 
+                        <button
+                            onClick={() => { onDelete(initialEvent.id); onClose(); }}
                             className="w-full py-3 mt-4 text-red-500 font-medium border border-red-200 dark:border-red-900 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition"
                         >
                             Excluir Registro
@@ -1076,14 +1076,14 @@ const BottleModal: FC<{
             if (initialEvent) {
                 const dt = new Date(initialEvent.timestamp);
                 setDate(dt.toISOString().split('T')[0]);
-                setTime(dt.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setAmount(initialEvent.bottleAmount || 120);
                 setContent(initialEvent.bottleContent || 'formula');
                 setNotes(initialEvent.notes || '');
             } else {
                 const now = new Date();
                 setDate(now.toISOString().split('T')[0]);
-                setTime(now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setAmount(120);
                 setContent('formula');
                 setNotes('');
@@ -1095,7 +1095,7 @@ const BottleModal: FC<{
 
     const handleSave = () => {
         const contentLabels = { formula: 'Fórmula', breast_milk: 'Leite Materno', cow_milk: 'Leite de Vaca', water: 'Água', juice: 'Suco' };
-        
+
         const event: LoggedEvent = {
             id: initialEvent ? initialEvent.id : Date.now().toString(),
             type: 'bottle',
@@ -1113,7 +1113,7 @@ const BottleModal: FC<{
     return (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
-                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <button onClick={onClose} className="text-gray-500">Cancelar</button>
                     <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
                         <Icon name="bottle" className="w-5 h-5 text-blue-500" />
@@ -1125,12 +1125,12 @@ const BottleModal: FC<{
                     {/* Amount Slider/Input */}
                     <div className="flex flex-col items-center">
                         <span className="text-5xl font-bold text-blue-500 mb-2">{amount}<span className="text-xl text-gray-400 ml-1">ml</span></span>
-                        <input 
-                            type="range" 
-                            min="0" 
-                            max="300" 
-                            step="10" 
-                            value={amount} 
+                        <input
+                            type="range"
+                            min="0"
+                            max="300"
+                            step="10"
+                            value={amount}
                             onChange={(e) => setAmount(parseInt(e.target.value))}
                             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
                         />
@@ -1145,21 +1145,21 @@ const BottleModal: FC<{
                     <div>
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Conteúdo</label>
                         <div className="grid grid-cols-2 gap-2">
-                             {[
-                                 { id: 'formula', label: 'Fórmula', emoji: '🍼' },
-                                 { id: 'breast_milk', label: 'Leite Materno', emoji: '🤱' },
-                                 { id: 'cow_milk', label: 'Leite Vaca', emoji: '🐮' },
-                                 { id: 'water', label: 'Água/Suco', emoji: '🧃' }
-                             ].map(opt => (
-                                 <button 
-                                     key={opt.id} 
-                                     onClick={() => setContent(opt.id as any)}
-                                     className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${content === opt.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700'}`}
-                                 >
-                                     <span className="text-2xl mb-1">{opt.emoji}</span>
-                                     <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300">{opt.label}</span>
-                                 </button>
-                             ))}
+                            {[
+                                { id: 'formula', label: 'Fórmula', emoji: '🍼' },
+                                { id: 'breast_milk', label: 'Leite Materno', emoji: '🤱' },
+                                { id: 'cow_milk', label: 'Leite Vaca', emoji: '🐮' },
+                                { id: 'water', label: 'Água/Suco', emoji: '🧃' }
+                            ].map(opt => (
+                                <button
+                                    key={opt.id}
+                                    onClick={() => setContent(opt.id as any)}
+                                    className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${content === opt.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700'}`}
+                                >
+                                    <span className="text-2xl mb-1">{opt.emoji}</span>
+                                    <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300">{opt.label}</span>
+                                </button>
+                            ))}
                         </div>
                     </div>
 
@@ -1170,18 +1170,18 @@ const BottleModal: FC<{
                     </div>
 
                     {/* Notes */}
-                    <textarea 
-                        value={notes} 
+                    <textarea
+                        value={notes}
                         onChange={e => setNotes(e.target.value)}
                         placeholder="Marca da fórmula ou observações..."
                         className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm min-h-[80px]"
                     />
 
-                     <HomeShortcutsControl eventType="bottle" pinnedMilestones={pinnedMilestones} setPinnedMilestones={setPinnedMilestones} widgets={widgets} setWidgets={setWidgets} />
+                    <HomeShortcutsControl eventType="bottle" pinnedMilestones={pinnedMilestones} setPinnedMilestones={setPinnedMilestones} widgets={widgets} setWidgets={setWidgets} />
 
                     {initialEvent && onDelete && (
-                        <button 
-                            onClick={() => { onDelete(initialEvent.id); onClose(); }} 
+                        <button
+                            onClick={() => { onDelete(initialEvent.id); onClose(); }}
                             className="w-full py-3 mt-4 text-red-500 font-medium border border-red-200 dark:border-red-900 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition"
                         >
                             Excluir Registro
@@ -1204,8 +1204,8 @@ const FoodModal: FC<{
     widgets: DashboardWidget[],
     setWidgets: (w: DashboardWidget[]) => void
 }> = ({ isOpen, onClose, onSave, onDelete, initialEvent, pinnedMilestones, setPinnedMilestones, widgets, setWidgets }) => {
-    const [mealType, setMealType] = useState<'breakfast'|'lunch'|'dinner'|'snack'>('lunch');
-    const [acceptance, setAcceptance] = useState<'all'|'most'|'some'|'refused'>('all');
+    const [mealType, setMealType] = useState<'breakfast' | 'lunch' | 'dinner' | 'snack'>('lunch');
+    const [acceptance, setAcceptance] = useState<'all' | 'most' | 'some' | 'refused'>('all');
     const [ingredients, setIngredients] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
@@ -1215,14 +1215,14 @@ const FoodModal: FC<{
             if (initialEvent) {
                 const dt = new Date(initialEvent.timestamp);
                 setDate(dt.toISOString().split('T')[0]);
-                setTime(dt.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setMealType(initialEvent.mealType || 'lunch');
                 setAcceptance(initialEvent.foodAcceptance || 'all');
                 setIngredients(initialEvent.foodIngredients || '');
             } else {
                 const now = new Date();
                 setDate(now.toISOString().split('T')[0]);
-                setTime(now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setIngredients('');
                 setAcceptance('all');
                 setMealType('lunch');
@@ -1235,7 +1235,7 @@ const FoodModal: FC<{
     const handleSave = () => {
         const mealLabels = { breakfast: 'Café da Manhã', lunch: 'Almoço', dinner: 'Jantar', snack: 'Lanche' };
         const acceptanceLabels = { all: 'Comeu tudo', most: 'Comeu bem', some: 'Comeu pouco', refused: 'Recusou' };
-        
+
         const event: LoggedEvent = {
             id: initialEvent ? initialEvent.id : Date.now().toString(),
             type: 'baby_food',
@@ -1252,7 +1252,7 @@ const FoodModal: FC<{
     return (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
-                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <button onClick={onClose} className="text-gray-500">Cancelar</button>
                     <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
                         <Icon name="baby_food" className="w-5 h-5 text-green-500" />
@@ -1263,31 +1263,31 @@ const FoodModal: FC<{
                 <div className="p-6 overflow-y-auto space-y-6">
                     {/* Meal Type */}
                     <div>
-                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Refeição</label>
-                         <div className="grid grid-cols-4 gap-2">
-                             {[
-                                 { id: 'breakfast', label: 'Café', emoji: '🥑' },
-                                 { id: 'lunch', label: 'Almoço', emoji: '🍴' },
-                                 { id: 'snack', label: 'Lanche', emoji: '🍎' },
-                                 { id: 'dinner', label: 'Jantar', emoji: '🍴' }
-                             ].map(opt => (
-                                 <button 
-                                    key={opt.id} 
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Refeição</label>
+                        <div className="grid grid-cols-4 gap-2">
+                            {[
+                                { id: 'breakfast', label: 'Café', emoji: '🥑' },
+                                { id: 'lunch', label: 'Almoço', emoji: '🍴' },
+                                { id: 'snack', label: 'Lanche', emoji: '🍎' },
+                                { id: 'dinner', label: 'Jantar', emoji: '🍴' }
+                            ].map(opt => (
+                                <button
+                                    key={opt.id}
                                     onClick={() => setMealType(opt.id as any)}
                                     className={`flex flex-col items-center p-2 rounded-xl border-2 transition-all ${mealType === opt.id ? 'border-green-500 bg-green-50 dark:bg-green-900/30 text-green-600' : 'border-gray-200 dark:border-gray-700 text-gray-500'}`}
                                 >
                                     <span className="text-2xl mb-1">{opt.emoji}</span>
                                     <span className="text-[10px] font-bold">{opt.label}</span>
                                 </button>
-                             ))}
-                         </div>
+                            ))}
+                        </div>
                     </div>
 
                     {/* Ingredients */}
                     <div>
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">O que comeu?</label>
-                        <textarea 
-                            value={ingredients} 
+                        <textarea
+                            value={ingredients}
                             onChange={e => setIngredients(e.target.value)}
                             placeholder="Ex: Arroz, feijão, cenoura..."
                             className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm min-h-[60px]"
@@ -1299,13 +1299,13 @@ const FoodModal: FC<{
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Aceitação</label>
                         <div className="flex justify-between gap-2">
                             {[
-                                {id: 'all', label: 'Tudo', emoji: '😋'},
-                                {id: 'most', label: 'Bem', emoji: '🙂'},
-                                {id: 'some', label: 'Pouco', emoji: '😕'},
-                                {id: 'refused', label: 'Nada', emoji: '🤐'}
+                                { id: 'all', label: 'Tudo', emoji: '😋' },
+                                { id: 'most', label: 'Bem', emoji: '🙂' },
+                                { id: 'some', label: 'Pouco', emoji: '😕' },
+                                { id: 'refused', label: 'Nada', emoji: '🤐' }
                             ].map(opt => (
-                                <button 
-                                    key={opt.id} 
+                                <button
+                                    key={opt.id}
                                     onClick={() => setAcceptance(opt.id as any)}
                                     className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${acceptance === opt.id ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : 'border-gray-200 dark:border-gray-700'}`}
                                 >
@@ -1321,11 +1321,11 @@ const FoodModal: FC<{
                         <input type="time" value={time} onChange={e => setTime(e.target.value)} className="w-24 p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
                     </div>
 
-                     <HomeShortcutsControl eventType="baby_food" pinnedMilestones={pinnedMilestones} setPinnedMilestones={setPinnedMilestones} widgets={widgets} setWidgets={setWidgets} />
+                    <HomeShortcutsControl eventType="baby_food" pinnedMilestones={pinnedMilestones} setPinnedMilestones={setPinnedMilestones} widgets={widgets} setWidgets={setWidgets} />
 
                     {initialEvent && onDelete && (
-                        <button 
-                            onClick={() => { onDelete(initialEvent.id); onClose(); }} 
+                        <button
+                            onClick={() => { onDelete(initialEvent.id); onClose(); }}
                             className="w-full py-3 mt-4 text-red-500 font-medium border border-red-200 dark:border-red-900 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition"
                         >
                             Excluir Registro
@@ -1373,7 +1373,7 @@ const IllnessModal: FC<{
             if (initialEvent) {
                 const dt = new Date(initialEvent.timestamp);
                 setDate(dt.toISOString().split('T')[0]);
-                setTime(dt.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setDiagnosis(initialEvent.illnessDiagnosis || '');
                 setSymptoms(initialEvent.illnessSymptoms || []);
                 setTemp(initialEvent.illnessTemperature ? initialEvent.illnessTemperature.toString() : '');
@@ -1382,7 +1382,7 @@ const IllnessModal: FC<{
             } else {
                 const now = new Date();
                 setDate(now.toISOString().split('T')[0]);
-                setTime(now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setDiagnosis('');
                 setSymptoms([]);
                 setTemp('');
@@ -1416,9 +1416,9 @@ const IllnessModal: FC<{
     };
 
     return (
-         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
-                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <button onClick={onClose} className="text-gray-500">Cancelar</button>
                     <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
                         <Icon name="illness" className="w-5 h-5 text-red-500" />
@@ -1429,8 +1429,8 @@ const IllnessModal: FC<{
                 <div className="p-6 overflow-y-auto space-y-6">
                     {/* Diagnosis */}
                     <div>
-                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Nome / Diagnóstico</label>
-                         <input type="text" placeholder="Ex: Gripe, Otite, Virose..." value={diagnosis} onChange={e => setDiagnosis(e.target.value)} className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-xl text-lg font-bold outline-none" />
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Nome / Diagnóstico</label>
+                        <input type="text" placeholder="Ex: Gripe, Otite, Virose..." value={diagnosis} onChange={e => setDiagnosis(e.target.value)} className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-xl text-lg font-bold outline-none" />
                     </div>
 
                     {/* Symptoms */}
@@ -1438,8 +1438,8 @@ const IllnessModal: FC<{
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Sintomas</label>
                         <div className="flex flex-wrap gap-2">
                             {commonSymptoms.map(sym => (
-                                <button 
-                                    key={sym.label} 
+                                <button
+                                    key={sym.label}
                                     onClick={() => toggleSymptom(sym.label)}
                                     className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${symptoms.includes(sym.label) ? 'bg-red-500 text-white border-red-500' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300'}`}
                                 >
@@ -1460,23 +1460,23 @@ const IllnessModal: FC<{
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Data</label>
                             <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
                         </div>
-                         <div className="w-24">
+                        <div className="w-24">
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Hora</label>
-                             <input type="time" value={time} onChange={e => setTime(e.target.value)} className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
+                            <input type="time" value={time} onChange={e => setTime(e.target.value)} className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
                         </div>
                     </div>
 
                     {/* Medication */}
                     <div>
-                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Medicamento Prescrito</label>
-                         <input type="text" placeholder="Nome e dosagem" value={medication} onChange={e => setMedication(e.target.value)} className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Medicamento Prescrito</label>
+                        <input type="text" placeholder="Nome e dosagem" value={medication} onChange={e => setMedication(e.target.value)} className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
                     </div>
 
                     {/* Treatment Notes */}
                     <div>
-                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Tratamento / Notas</label>
-                         <textarea 
-                            value={treatment} 
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Tratamento / Notas</label>
+                        <textarea
+                            value={treatment}
                             onChange={e => setTreatment(e.target.value)}
                             placeholder="Repouso, muita água, observar febre..."
                             className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm min-h-[80px]"
@@ -1485,8 +1485,8 @@ const IllnessModal: FC<{
                     <HomeShortcutsControl eventType="illness" pinnedMilestones={pinnedMilestones} setPinnedMilestones={setPinnedMilestones} widgets={widgets} setWidgets={setWidgets} />
 
                     {initialEvent && onDelete && (
-                        <button 
-                            onClick={() => { onDelete(initialEvent.id); onClose(); }} 
+                        <button
+                            onClick={() => { onDelete(initialEvent.id); onClose(); }}
                             className="w-full py-3 mt-4 text-red-500 font-medium border border-red-200 dark:border-red-900 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition"
                         >
                             Excluir Registro
@@ -1494,7 +1494,7 @@ const IllnessModal: FC<{
                     )}
                 </div>
             </div>
-         </div>
+        </div>
     )
 };
 
@@ -1523,7 +1523,7 @@ const DoctorModal: FC<{
             if (initialEvent) {
                 const dt = new Date(initialEvent.timestamp);
                 setDate(dt.toISOString().split('T')[0]);
-                setTime(dt.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setSpecialty(initialEvent.doctorSpecialty || 'Pediatra');
                 setDoctorName(initialEvent.doctorName || '');
                 setReason(initialEvent.visitReason || 'Rotina');
@@ -1536,7 +1536,7 @@ const DoctorModal: FC<{
             } else {
                 const now = new Date();
                 setDate(now.toISOString().split('T')[0]);
-                setTime(now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}));
+                setTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
                 setDoctorName('');
                 setReason('Rotina');
                 setWeight('');
@@ -1565,9 +1565,9 @@ const DoctorModal: FC<{
     };
 
     return (
-         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
             <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
-                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <button onClick={onClose} className="text-gray-500">Cancelar</button>
                     <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
                         <Icon name="doctor" className="w-5 h-5 text-blue-500" />
@@ -1578,14 +1578,14 @@ const DoctorModal: FC<{
                 <div className="p-6 overflow-y-auto space-y-5">
                     {/* ... fields ... */}
                     <div className="grid grid-cols-2 gap-4">
-                         <div>
+                        <div>
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Especialidade</label>
                             <input type="text" value={specialty} onChange={e => setSpecialty(e.target.value)} className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm" />
-                         </div>
-                         <div>
+                        </div>
+                        <div>
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Motivo</label>
                             <input type="text" value={reason} onChange={e => setReason(e.target.value)} className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm" />
-                         </div>
+                        </div>
                     </div>
 
                     <div>
@@ -1615,9 +1615,9 @@ const DoctorModal: FC<{
 
                     {/* Notes/Prescriptions */}
                     <div>
-                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Anotações / Prescrições</label>
-                         <textarea 
-                            value={notes} 
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Anotações / Prescrições</label>
+                        <textarea
+                            value={notes}
                             onChange={e => setNotes(e.target.value)}
                             placeholder="Resumo da consulta..."
                             className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm min-h-[100px]"
@@ -1626,8 +1626,8 @@ const DoctorModal: FC<{
                     <HomeShortcutsControl eventType="doctor" pinnedMilestones={pinnedMilestones} setPinnedMilestones={setPinnedMilestones} widgets={widgets} setWidgets={setWidgets} />
 
                     {initialEvent && onDelete && (
-                        <button 
-                            onClick={() => { onDelete(initialEvent.id); onClose(); }} 
+                        <button
+                            onClick={() => { onDelete(initialEvent.id); onClose(); }}
                             className="w-full py-3 mt-4 text-red-500 font-medium border border-red-200 dark:border-red-900 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition"
                         >
                             Excluir Registro
@@ -1635,7 +1635,7 @@ const DoctorModal: FC<{
                     )}
                 </div>
             </div>
-         </div>
+        </div>
     );
 };
 
@@ -1729,7 +1729,7 @@ const SleepModal: FC<{
     const handleSave = () => {
         const [startH, startM] = startTime.split(':').map(Number);
         const [endH, endM] = endTime.split(':').map(Number);
-        
+
         let diffM = (endH * 60 + endM) - (startH * 60 + startM);
         if (diffM < 0) diffM += 24 * 60;
         const durationHours = parseFloat((diffM / 60).toFixed(2));
@@ -1753,7 +1753,7 @@ const SleepModal: FC<{
     return (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-opacity">
             <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
-                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <button onClick={onClose} className="text-gray-500 dark:text-gray-400 p-2">Cancelar</button>
                     <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
                         <Icon name="sleep" className="w-5 h-5 text-blue-500" />
@@ -1761,31 +1761,31 @@ const SleepModal: FC<{
                     </h2>
                     <button onClick={handleSave} className="text-blue-500 font-bold p-2">Salvar</button>
                 </div>
-                
+
                 <div className="p-6 overflow-y-auto space-y-6">
                     {/* Toggle Type */}
                     <div className="flex gap-2">
-                         {[
-                             { id: 'night', label: 'Sono Noturno', emoji: '🌙' },
-                             { id: 'nap', label: 'Soneca', emoji: '💤' }
-                         ].map(opt => (
-                             <button 
-                                 key={opt.id} 
-                                 onClick={() => setSleepType(opt.id as any)}
-                                 className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${sleepType === opt.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700'}`}
-                             >
-                                 <span className="text-2xl mb-1">{opt.emoji}</span>
-                                 <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300">{opt.label}</span>
-                             </button>
-                         ))}
+                        {[
+                            { id: 'night', label: 'Sono Noturno', emoji: '🌙' },
+                            { id: 'nap', label: 'Soneca', emoji: '💤' }
+                        ].map(opt => (
+                            <button
+                                key={opt.id}
+                                onClick={() => setSleepType(opt.id as any)}
+                                className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${sleepType === opt.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700'}`}
+                            >
+                                <span className="text-2xl mb-1">{opt.emoji}</span>
+                                <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300">{opt.label}</span>
+                            </button>
+                        ))}
                     </div>
 
                     {/* Date */}
                     <div>
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Data</label>
-                        <input 
-                            type="date" 
-                            value={date} 
+                        <input
+                            type="date"
+                            value={date}
                             onChange={e => setDate(e.target.value)}
                             className="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl text-lg font-semibold text-gray-800 dark:text-white outline-none focus:ring-2 ring-blue-500 border border-gray-100 dark:border-gray-700"
                         />
@@ -1795,18 +1795,18 @@ const SleepModal: FC<{
                     <div className="flex gap-4">
                         <div className="flex-1">
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Início</label>
-                            <input 
-                                type="time" 
-                                value={startTime} 
+                            <input
+                                type="time"
+                                value={startTime}
                                 onChange={e => setStartTime(e.target.value)}
                                 className="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl text-lg font-semibold text-gray-800 dark:text-white outline-none focus:ring-2 ring-blue-500 border border-gray-100 dark:border-gray-700"
                             />
                         </div>
                         <div className="flex-1">
-                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Fim</label>
-                             <input 
-                                type="time" 
-                                value={endTime} 
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Fim</label>
+                            <input
+                                type="time"
+                                value={endTime}
                                 onChange={e => setEndTime(e.target.value)}
                                 className="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-xl text-lg font-semibold text-gray-800 dark:text-white outline-none focus:ring-2 ring-blue-500 border border-gray-100 dark:border-gray-700"
                             />
@@ -1839,17 +1839,17 @@ const SleepModal: FC<{
                     )}
 
                     {/* Home Shortcuts */}
-                    <HomeShortcutsControl 
-                        eventType="sleep" 
-                        pinnedMilestones={pinnedMilestones} 
+                    <HomeShortcutsControl
+                        eventType="sleep"
+                        pinnedMilestones={pinnedMilestones}
                         setPinnedMilestones={setPinnedMilestones}
                         widgets={widgets}
                         setWidgets={setWidgets}
                     />
 
                     {initialEvent && onDelete && (
-                        <button 
-                            onClick={() => { onDelete(initialEvent.id); onClose(); }} 
+                        <button
+                            onClick={() => { onDelete(initialEvent.id); onClose(); }}
                             className="w-full py-3 mt-4 text-red-500 font-medium border border-red-200 dark:border-red-900 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition"
                         >
                             Excluir Registro
@@ -1863,7 +1863,7 @@ const SleepModal: FC<{
 
 const WhiteNoiseWidget: FC = () => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [selectedSound, setSelectedSound] = useState<'womb'|'shush'>('womb');
+    const [selectedSound, setSelectedSound] = useState<'womb' | 'shush'>('womb');
     const [timer, setTimer] = useState<number | null>(null);
 
     // Audio Context Refs
@@ -1891,9 +1891,9 @@ const WhiteNoiseWidget: FC = () => {
 
     useEffect(() => {
         let interval: any;
-        if(isPlaying) {
+        if (isPlaying) {
             interval = setInterval(() => {
-                if(timer && timer > 0) setTimer(t => t! - 1);
+                if (timer && timer > 0) setTimer(t => t! - 1);
             }, 1000);
         }
         return () => clearInterval(interval);
@@ -1909,7 +1909,7 @@ const WhiteNoiseWidget: FC = () => {
                 output[i] = Math.random() * 2 - 1;
             }
         } else if (type === 'pink') {
-            let b0=0, b1=0, b2=0, b3=0, b4=0, b5=0, b6=0;
+            let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
             for (let i = 0; i < bufferSize; i++) {
                 const white = Math.random() * 2 - 1;
                 b0 = 0.99886 * b0 + white * 0.0555179;
@@ -1939,7 +1939,7 @@ const WhiteNoiseWidget: FC = () => {
             audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
         }
         const ctx = audioContextRef.current;
-        
+
         // Stop previous sound
         if (sourceNodeRef.current) {
             sourceNodeRef.current.stop();
@@ -1965,10 +1965,10 @@ const WhiteNoiseWidget: FC = () => {
         const filter = ctx.createBiquadFilter();
         filter.type = 'lowpass';
         filter.frequency.value = filterFreq;
-        
+
         source.connect(filter);
         filter.connect(gainNode);
-        
+
         source.start();
         sourceNodeRef.current = source;
         setIsPlaying(true);
@@ -2018,32 +2018,32 @@ const WhiteNoiseWidget: FC = () => {
                     Ruído Branco
                 </h4>
                 {isPlaying && (
-                     <div className="flex items-end gap-0.5 h-4">
-                         {bars.map((h, i) => (
-                             <div key={i} className="w-1 bg-purple-500 animate-pulse rounded-full" style={{height: `${h*4}px`, animationDelay: `${i*0.1}s`}}></div>
-                         ))}
-                     </div>
+                    <div className="flex items-end gap-0.5 h-4">
+                        {bars.map((h, i) => (
+                            <div key={i} className="w-1 bg-purple-500 animate-pulse rounded-full" style={{ height: `${h * 4}px`, animationDelay: `${i * 0.1}s` }}></div>
+                        ))}
+                    </div>
                 )}
             </div>
-            
+
             <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-700/50 p-2 rounded-xl mb-4 overflow-x-auto scrollbar-hide">
-                 {sounds.map((s) => (
-                     <button 
-                        key={s.id} 
+                {sounds.map((s) => (
+                    <button
+                        key={s.id}
                         onClick={() => handleSoundSelection(s.id as any)}
                         className={`flex flex-col items-center p-2 rounded-lg transition-all min-w-[60px] ${selectedSound === s.id ? 'bg-white dark:bg-gray-600 shadow-sm text-purple-500' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
                     >
-                         <Icon name={s.icon} className="w-5 h-5 mb-1" />
-                         <span className="text-[10px] font-bold">{s.label}</span>
-                     </button>
-                 ))}
+                        <Icon name={s.icon} className="w-5 h-5 mb-1" />
+                        <span className="text-[10px] font-bold">{s.label}</span>
+                    </button>
+                ))}
             </div>
 
             <div className="flex items-center gap-3">
                 <button onClick={handlePrev} className="p-3 text-gray-400 hover:text-purple-500 transition-colors">
                     <Icon name="skip_previous" className="w-6 h-6" />
                 </button>
-                <button 
+                <button
                     onClick={togglePlay}
                     className={`flex-1 py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition-all ${isPlaying ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-300' : 'bg-purple-500 text-white shadow-md hover:bg-purple-600'}`}
                 >
@@ -2061,9 +2061,9 @@ const WhiteNoiseWidget: FC = () => {
 // ... HomeScreen, SettingsScreen, AddEventScreen, DiaryScreen, StatsScreen, ProfileScreen, VaccinationScreen, AgendaScreen remain largely unchanged structurally, 
 // just ensure AddEventScreen uses correct hideInMenu check and DiaryScreen calls handleOpenDetailedModal properly
 
-const HomeScreen: FC<{ 
-    profile: BabyProfile; 
-    setScreen: (screen: Screen) => void; 
+const HomeScreen: FC<{
+    profile: BabyProfile;
+    setScreen: (screen: Screen) => void;
     events: LoggedEvent[];
     reminders: Reminder[];
     widgets: DashboardWidget[];
@@ -2074,10 +2074,10 @@ const HomeScreen: FC<{
 }> = ({ profile, setScreen, events, reminders, widgets, setWidgets, openEventModal, pinnedMilestones, onConfigMilestones }) => {
     // ... same content as previously provided ...
     const [showWidgetSelector, setShowWidgetSelector] = useState(false);
-    
+
     // Only show pinned milestones
     const displayedMilestones = EVENT_DEFINITIONS.filter(d => pinnedMilestones.includes(d.type));
-    
+
     // Check which milestones have been logged
     const loggedMilestones = events.filter(e => {
         const def = EVENT_DEFINITIONS.find(d => d.type === e.type);
@@ -2086,7 +2086,7 @@ const HomeScreen: FC<{
 
     const getLoggedMilestone = (type: string) => {
         // Get the latest one
-        return loggedMilestones.filter(m => m.type === type).sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
+        return loggedMilestones.filter(m => m.type === type).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
     }
 
     const handleMilestoneClick = (type: string) => {
@@ -2120,12 +2120,12 @@ const HomeScreen: FC<{
         };
         openEventModal(newEvent);
     }
-    
+
     // ... renderWidget ...
     const renderWidget = (widget: DashboardWidget) => {
-        switch(widget.type) {
+        switch (widget.type) {
             case 'next_reminder':
-                const nextReminder = reminders.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
+                const nextReminder = reminders.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
                 return (
                     <div key={widget.id} className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 relative group">
                         <button onClick={() => removeWidget(widget.id)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity"><Icon name="close" className="w-4 h-4" /></button>
@@ -2147,21 +2147,21 @@ const HomeScreen: FC<{
                 return (
                     <div key={widget.id} className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 relative group">
                         <button onClick={() => removeWidget(widget.id)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity"><Icon name="close" className="w-4 h-4" /></button>
-                         <h4 className="font-bold text-gray-800 dark:text-white text-sm mb-3">Acesso Rápido</h4>
-                         <div className="flex justify-between gap-2">
-                             <button onClick={() => handleQuickAction('sleep')} className="flex-1 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-xl flex flex-col items-center justify-center text-blue-600 dark:text-blue-400">
-                                 <Icon name="sleep" className="w-5 h-5 mb-1" />
-                                 <span className="text-[10px] font-bold">Sono</span>
-                             </button>
-                             <button onClick={() => handleQuickAction('bottle')} className="flex-1 bg-orange-50 dark:bg-orange-900/20 p-2 rounded-xl flex flex-col items-center justify-center text-orange-600 dark:text-orange-400">
-                                 <Icon name="bottle" className="w-5 h-5 mb-1" />
-                                 <span className="text-[10px] font-bold">Comer</span>
-                             </button>
-                             <button onClick={() => handleQuickAction('diaper')} className="flex-1 bg-green-50 dark:bg-green-900/20 p-2 rounded-xl flex flex-col items-center justify-center text-green-600 dark:text-green-400">
-                                 <Icon name="diaper" className="w-5 h-5 mb-1" />
-                                 <span className="text-[10px] font-bold">Fralda</span>
-                             </button>
-                         </div>
+                        <h4 className="font-bold text-gray-800 dark:text-white text-sm mb-3">Acesso Rápido</h4>
+                        <div className="flex justify-between gap-2">
+                            <button onClick={() => handleQuickAction('sleep')} className="flex-1 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-xl flex flex-col items-center justify-center text-blue-600 dark:text-blue-400">
+                                <Icon name="sleep" className="w-5 h-5 mb-1" />
+                                <span className="text-[10px] font-bold">Sono</span>
+                            </button>
+                            <button onClick={() => handleQuickAction('bottle')} className="flex-1 bg-orange-50 dark:bg-orange-900/20 p-2 rounded-xl flex flex-col items-center justify-center text-orange-600 dark:text-orange-400">
+                                <Icon name="bottle" className="w-5 h-5 mb-1" />
+                                <span className="text-[10px] font-bold">Comer</span>
+                            </button>
+                            <button onClick={() => handleQuickAction('diaper')} className="flex-1 bg-green-50 dark:bg-green-900/20 p-2 rounded-xl flex flex-col items-center justify-center text-green-600 dark:text-green-400">
+                                <Icon name="diaper" className="w-5 h-5 mb-1" />
+                                <span className="text-[10px] font-bold">Fralda</span>
+                            </button>
+                        </div>
                     </div>
                 );
             case 'white_noise':
@@ -2175,13 +2175,13 @@ const HomeScreen: FC<{
                 const lastMilestone = events.filter(e => {
                     const def = EVENT_DEFINITIONS.find(d => d.type === e.type);
                     return def?.category === 'milestone';
-                }).sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
-                
+                }).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
+
                 const mDef = lastMilestone ? EVENT_DEFINITIONS.find(d => d.type === lastMilestone.type) : null;
 
                 return (
                     <div key={widget.id} className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 relative group">
-                         <button onClick={() => removeWidget(widget.id)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity"><Icon name="close" className="w-4 h-4" /></button>
+                        <button onClick={() => removeWidget(widget.id)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity"><Icon name="close" className="w-4 h-4" /></button>
                         <h4 className="font-bold text-gray-800 dark:text-white text-sm mb-3 flex items-center gap-2">
                             <Icon name="star" className="w-4 h-4 text-yellow-500" />
                             Última Conquista
@@ -2204,7 +2204,7 @@ const HomeScreen: FC<{
             default: return null;
         }
     }
-    
+
     return (
         <div className="flex-grow flex flex-col transition-colors">
             {/* ... same profile header ... */}
@@ -2227,29 +2227,29 @@ const HomeScreen: FC<{
             {/* Marcos do Bebê */}
             <div className="mt-6 mb-2">
                 <div className="flex items-center justify-between px-6 mb-4">
-                     {/* Title & Settings */}
+                    {/* Title & Settings */}
                     <div className="flex items-center gap-2">
                         <h3 className="text-lg font-bold text-gray-800 dark:text-white">Marcos do Bebê</h3>
                         <button onClick={onConfigMilestones} className="text-gray-400 hover:text-blue-500 bg-transparent p-1 rounded-full">
                             <Icon name="settings" className="w-4 h-4" />
                         </button>
                     </div>
-                     {/* Add Button */}
-                     <button 
+                    {/* Add Button */}
+                    <button
                         onClick={() => setScreen('add-event')}
                         className="w-8 h-8 bg-blue-500 hover:bg-blue-600 rounded-full flex items-center justify-center text-white shadow-sm transition-colors"
                     >
                         <Icon name="plus" className="w-5 h-5" />
                     </button>
                 </div>
-                
+
                 {/* Horizontal List with Circular Buttons */}
                 <div className="flex overflow-x-auto px-6 space-x-5 pb-4 scrollbar-hide">
                     {displayedMilestones.length === 0 ? (
-                         <div onClick={onConfigMilestones} className="flex flex-col items-center justify-center min-w-[80px] h-24 text-gray-400 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl cursor-pointer">
-                             <Icon name="plus" className="w-6 h-6 mb-1 opacity-50" />
-                             <span className="text-[10px] font-bold">Configurar</span>
-                         </div>
+                        <div onClick={onConfigMilestones} className="flex flex-col items-center justify-center min-w-[80px] h-24 text-gray-400 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl cursor-pointer">
+                            <Icon name="plus" className="w-6 h-6 mb-1 opacity-50" />
+                            <span className="text-[10px] font-bold">Configurar</span>
+                        </div>
                     ) : (
                         displayedMilestones.map(m => {
                             const isMilestone = m.category === 'milestone';
@@ -2262,7 +2262,7 @@ const HomeScreen: FC<{
                                         <Icon name={m.icon} className="w-8 h-8" />
                                     </div>
                                     <span className="text-[11px] font-bold text-gray-600 dark:text-gray-300 text-center leading-none max-w-[70px] truncate">{m.label}</span>
-                                    
+
                                     {isCompleted && (
                                         <div className="absolute -top-1 -right-1 bg-green-500 text-white rounded-full p-0.5 border-2 border-white dark:border-gray-900">
                                             <Icon name="check_circle" className="w-3 h-3" />
@@ -2279,7 +2279,7 @@ const HomeScreen: FC<{
             <div className="px-6 space-y-4 mb-24">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-bold text-gray-800 dark:text-white">Resumo</h3>
-                    <button 
+                    <button
                         onClick={() => setShowWidgetSelector(true)}
                         className="text-xs font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-full hover:bg-blue-100 transition-colors"
                     >
@@ -2289,10 +2289,10 @@ const HomeScreen: FC<{
 
                 {/* Empty State */}
                 {widgets.length === 0 && (
-                     <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl p-6 text-center">
+                    <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl p-6 text-center">
                         <p className="text-gray-400 text-sm mb-3">Adicione widgets para acesso rápido ao que importa.</p>
                         <button onClick={() => setShowWidgetSelector(true)} className="text-blue-500 font-bold text-sm">+ Adicionar ao Resumo</button>
-                     </div>
+                    </div>
                 )}
 
                 {/* Widget Grid */}
@@ -2300,9 +2300,9 @@ const HomeScreen: FC<{
                     {widgets.map((w) => renderWidget(w))}
                 </div>
             </div>
-            
+
             {showWidgetSelector && (
-                 <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm" onClick={() => setShowWidgetSelector(false)}>
+                <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm" onClick={() => setShowWidgetSelector(false)}>
                     <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl p-6 animate-bounce-in" onClick={e => e.stopPropagation()}>
                         <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4">Adicionar ao Resumo</h3>
                         <div className="grid grid-cols-2 gap-4">
@@ -2311,25 +2311,25 @@ const HomeScreen: FC<{
                                 <span className="block font-bold text-gray-800 dark:text-white text-sm">Próximo Evento</span>
                                 <span className="text-[10px] text-gray-500">Da sua agenda</span>
                             </button>
-                             <button onClick={() => addWidget('white_noise')} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition text-left">
+                            <button onClick={() => addWidget('white_noise')} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition text-left">
                                 <Icon name="music" className="w-6 h-6 text-purple-500 mb-2" />
                                 <span className="block font-bold text-gray-800 dark:text-white text-sm">Ruído Branco</span>
                                 <span className="text-[10px] text-gray-500">Player de sons</span>
                             </button>
-                             <button onClick={() => addWidget('quick_actions')} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition text-left">
+                            <button onClick={() => addWidget('quick_actions')} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition text-left">
                                 <Icon name="plus" className="w-6 h-6 text-blue-500 mb-2" />
                                 <span className="block font-bold text-gray-800 dark:text-white text-sm">Ações Rápidas</span>
                                 <span className="text-[10px] text-gray-500">Botões de atalho</span>
                             </button>
-                             <button onClick={() => addWidget('last_milestone')} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition text-left">
+                            <button onClick={() => addWidget('last_milestone')} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition text-left">
                                 <Icon name="star" className="w-6 h-6 text-yellow-500 mb-2" />
                                 <span className="block font-bold text-gray-800 dark:text-white text-sm">Último Marco</span>
                                 <span className="text-[10px] text-gray-500">Destaque recente</span>
                             </button>
                         </div>
-                         <button onClick={() => setShowWidgetSelector(false)} className="w-full mt-6 py-3 text-gray-500 font-bold">Cancelar</button>
+                        <button onClick={() => setShowWidgetSelector(false)} className="w-full mt-6 py-3 text-gray-500 font-bold">Cancelar</button>
                     </div>
-                 </div>
+                </div>
             )}
         </div>
     );
@@ -2344,7 +2344,7 @@ const SettingsScreen: FC<{ profile: BabyProfile, setProfile: (p: BabyProfile) =>
                 <div onClick={() => setScreen('profile')} className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-between cursor-pointer active:bg-gray-50 dark:active:bg-gray-700 transition">
                     <div className="flex items-center space-x-4">
                         <div className="w-14 h-14 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center overflow-hidden">
-                           {profile.photo ? <img src={profile.photo} className="w-full h-full object-cover" /> : <Icon name="baby_face" className="w-8 h-8 text-gray-500 dark:text-gray-400" />}
+                            {profile.photo ? <img src={profile.photo} className="w-full h-full object-cover" /> : <Icon name="baby_face" className="w-8 h-8 text-gray-500 dark:text-gray-400" />}
                         </div>
                         <div>
                             <p className="font-bold text-lg text-gray-800 dark:text-white">{profile.name}</p>
@@ -2366,20 +2366,20 @@ const SettingsScreen: FC<{ profile: BabyProfile, setProfile: (p: BabyProfile) =>
                                 <span className="font-medium text-gray-700 dark:text-gray-200">Tema Padrão do App</span>
                             </div>
                         </div>
-                        
+
                         {/* Explicit Theme Selector */}
                         <div className="flex gap-2 mb-6">
                             {[
                                 { id: false, label: 'Claro', emoji: '☀️' },
                                 { id: true, label: 'Escuro', emoji: '🌙' }
                             ].map(opt => (
-                                <button 
+                                <button
                                     key={String(opt.id)}
-                                    onClick={() => setDarkMode(opt.id)} 
+                                    onClick={() => setDarkMode(opt.id)}
                                     className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${darkMode === opt.id ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300' : 'border-gray-200 dark:border-gray-700 text-gray-500'}`}
                                 >
-                                     <span className="text-2xl mb-1">{opt.emoji}</span>
-                                     <span className="text-[10px] font-bold">{opt.label}</span>
+                                    <span className="text-2xl mb-1">{opt.emoji}</span>
+                                    <span className="text-[10px] font-bold">{opt.label}</span>
                                 </button>
                             ))}
                         </div>
@@ -2401,13 +2401,13 @@ const SettingsScreen: FC<{ profile: BabyProfile, setProfile: (p: BabyProfile) =>
                                 { id: 'purple', label: 'Roxo', emoji: '👾' },
                                 { id: 'green', label: 'Verde', emoji: '🦖' }
                             ].map(opt => (
-                                <button 
-                                    key={opt.id} 
-                                    onClick={() => setProfile({...profile, themeColor: opt.id as any})}
+                                <button
+                                    key={opt.id}
+                                    onClick={() => setProfile({ ...profile, themeColor: opt.id as any })}
                                     className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${profile.themeColor === opt.id ? `border-${opt.id}-500 bg-${opt.id}-50 dark:bg-${opt.id}-900/30 text-${opt.id}-600` : 'border-gray-200 dark:border-gray-700 text-gray-500'}`}
                                 >
-                                        <span className="text-2xl mb-1">{opt.emoji}</span>
-                                        <span className="text-[10px] font-bold">{opt.label}</span>
+                                    <span className="text-2xl mb-1">{opt.emoji}</span>
+                                    <span className="text-[10px] font-bold">{opt.label}</span>
                                 </button>
                             ))}
                         </div>
@@ -2418,14 +2418,14 @@ const SettingsScreen: FC<{ profile: BabyProfile, setProfile: (p: BabyProfile) =>
     );
 };
 
-const AddEventScreen: FC<{ 
-    setScreen: (s: Screen) => void, 
-    addEvent: (event: LoggedEvent) => void, 
-    openModal: (e: LoggedEvent) => void, 
-    onSleepClick: () => void, 
+const AddEventScreen: FC<{
+    setScreen: (s: Screen) => void,
+    addEvent: (event: LoggedEvent) => void,
+    openModal: (e: LoggedEvent) => void,
+    onSleepClick: () => void,
     onBreastfeedingClick: () => void,
-    onBottleClick: () => void, 
-    onFoodClick: () => void, 
+    onBottleClick: () => void,
+    onFoodClick: () => void,
     onIllnessClick: () => void,
     onDoctorClick: () => void,
     onMeasurementsClick: () => void,
@@ -2463,7 +2463,7 @@ const AddEventScreen: FC<{
     };
 
     const handleAddEvent = (type: EventType, category: EventCategory) => {
-        if (timerRef.current) return; 
+        if (timerRef.current) return;
 
         if (type === 'vaccine') { setScreen('vaccination'); return; }
         if (type === 'sleep') { onSleepClick(); return; }
@@ -2473,9 +2473,9 @@ const AddEventScreen: FC<{
         if (type === 'illness') { onIllnessClick(); return; }
         if (type === 'doctor') { onDoctorClick(); return; }
         if (type === 'measurements') { onMeasurementsClick(); return; }
-        
+
         if (category === 'milestone' || ['diaper', 'medication', 'stroll', 'bath', 'head_circumference'].includes(type)) {
-             const newEvent: LoggedEvent = {
+            const newEvent: LoggedEvent = {
                 id: new Date().toISOString(),
                 type,
                 timestamp: new Date().toISOString(),
@@ -2498,7 +2498,7 @@ const AddEventScreen: FC<{
 
     return (
         <div className="flex-grow flex flex-col transition-colors">
-             <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-20 transition-colors">
+            <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-20 transition-colors">
                 <button onClick={() => setScreen('home')} className="text-blue-500 font-medium text-lg">Cancelar</button>
                 <h2 className="font-bold text-lg text-gray-800 dark:text-white">Novo Registro</h2>
                 <div className="w-16"></div> {/* Spacer */}
@@ -2510,13 +2510,13 @@ const AddEventScreen: FC<{
                         <h3 className="font-bold text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider mb-3 ml-1">{categoryLabels[catKey]}</h3>
                         <div className="grid grid-cols-4 gap-y-6">
                             {visibleEvents.filter(def => def.category === catKey).map(def => (
-                                <button 
-                                    key={def.type} 
+                                <button
+                                    key={def.type}
                                     onMouseDown={() => handleTouchStart(def.type, def.category)}
                                     onMouseUp={handleTouchEnd}
                                     onTouchStart={() => handleTouchStart(def.type, def.category)}
                                     onTouchEnd={handleTouchEnd}
-                                    onClick={() => handleAddEvent(def.type, def.category)} 
+                                    onClick={() => handleAddEvent(def.type, def.category)}
                                     className="flex flex-col items-center group relative"
                                 >
                                     <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-2 transition-transform group-active:scale-95 ${CATEGORY_COLORS[def.category]}`}>
@@ -2541,7 +2541,7 @@ const AddEventScreen: FC<{
 const DiaryScreen: FC<{ events: LoggedEvent[], onEditEvent: (event: LoggedEvent) => void }> = ({ events, onEditEvent }) => {
     // ... same logic as before ...
     const [filterCategory, setFilterCategory] = useState<string>('all');
-    
+
     // Group categories for filter bar
     const filterOptions = [
         { id: 'all', label: 'Todos', icon: 'backup' },
@@ -2574,7 +2574,7 @@ const DiaryScreen: FC<{ events: LoggedEvent[], onEditEvent: (event: LoggedEvent)
 
     return (
         <div className="flex-grow flex flex-col transition-colors h-full">
-             <div className="sticky top-0 z-20 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-100 dark:border-gray-800 transition-colors">
+            <div className="sticky top-0 z-20 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-100 dark:border-gray-800 transition-colors">
                 <Header title="Diário" />
                 {/* Filter Bar */}
                 <div className="py-3 px-4 overflow-x-auto scrollbar-hide flex gap-3">
@@ -2606,7 +2606,7 @@ const DiaryScreen: FC<{ events: LoggedEvent[], onEditEvent: (event: LoggedEvent)
                                         <div className="flex-grow">
                                             <div className="flex justify-between items-start">
                                                 <h4 className="font-bold text-gray-800 dark:text-white text-sm">{def.label}</h4>
-                                                <span className="text-xs text-gray-400 font-medium">{new Date(event.timestamp).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}</span>
+                                                <span className="text-xs text-gray-400 font-medium">{new Date(event.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
                                             </div>
                                             {event.value && <p className="text-sm text-gray-600 dark:text-gray-300 font-semibold mt-0.5">{event.value} {event.unit}</p>}
                                             {event.plagiocephalyAsymmetry !== undefined && <p className="text-sm font-bold text-blue-500 mt-0.5">Assimetria: {event.plagiocephalyAsymmetry}mm</p>}
@@ -2619,7 +2619,7 @@ const DiaryScreen: FC<{ events: LoggedEvent[], onEditEvent: (event: LoggedEvent)
                         </div>
                     </div>
                 ))}
-                 {filteredEvents.length === 0 && (
+                {filteredEvents.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-64 text-gray-400">
                         <Icon name="document" className="w-12 h-12 mb-2 opacity-50" />
                         <p>Nenhum registro encontrado</p>
@@ -2636,34 +2636,34 @@ const StatsScreen: FC<{ events: LoggedEvent[], isDarkMode: boolean, setScreen: (
     // ... same as provided ...
     const growthData = useMemo(() => {
         const relevantEvents = events.filter(e => e.type === 'weight' || e.type === 'length');
-        const sorted = relevantEvents.sort((a,b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-        
+        const sorted = relevantEvents.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
         const map = new Map<string, any>();
-        
+
         sorted.forEach(e => {
             const dateObj = new Date(e.timestamp);
-            const dateStr = dateObj.toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'});
-            
+            const dateStr = dateObj.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+
             if (!map.has(dateStr)) {
                 map.set(dateStr, { date: dateStr, originalTimestamp: dateObj.getTime() });
             }
             const entry = map.get(dateStr);
-            
+
             if (e.type === 'weight') entry.weight = e.value;
             if (e.type === 'length') entry.length = e.value;
         });
 
-        return Array.from(map.values()).sort((a,b) => a.originalTimestamp - b.originalTimestamp);
+        return Array.from(map.values()).sort((a, b) => a.originalTimestamp - b.originalTimestamp);
     }, [events]);
 
-    const plagioEvent = events.filter(e => e.type === 'head_circumference' && e.plagiocephalyAsymmetry !== undefined).sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
+    const plagioEvent = events.filter(e => e.type === 'head_circumference' && e.plagiocephalyAsymmetry !== undefined).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0];
     const plagioAge = plagioEvent ? calculateAgeInMonths(profile.birthDate, plagioEvent.timestamp) : undefined;
 
     return (
         <div className="flex-grow flex flex-col transition-colors h-full">
             <Header title="Gráficos" />
             <div className="p-4 space-y-6 pb-24">
-                 <div className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-800 p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
                     <h4 className="font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
                         <div className="flex -space-x-1">
                             <div className="z-10 p-1.5 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-500"><Icon name="weight" className="w-4 h-4" /></div>
@@ -2674,35 +2674,35 @@ const StatsScreen: FC<{ events: LoggedEvent[], isDarkMode: boolean, setScreen: (
                     <div className="h-64 w-full">
                         {growthData.length > 0 ? (
                             <ResponsiveContainer width="100%" height="100%">
-                                <ComposedChart data={growthData} margin={{top: 10, right: 0, left: 0, bottom: 0}}>
+                                <ComposedChart data={growthData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#374151' : '#f3f4f6'} />
-                                    <XAxis dataKey="date" tick={{fontSize: 10, fill: isDarkMode ? '#9ca3af' : '#9ca3af'}} axisLine={false} tickLine={false} />
-                                    
-                                    <YAxis yAxisId="left" orientation="left" stroke="#22c55e" tick={{fontSize: 10, fill: '#22c55e'}} axisLine={false} tickLine={false} width={30} label={{ value: 'kg', position: 'insideTopLeft', offset: 10, fill: '#22c55e', fontSize: 10 }} />
-                                    <YAxis yAxisId="right" orientation="right" stroke="#3b82f6" tick={{fontSize: 10, fill: '#3b82f6'}} axisLine={false} tickLine={false} width={30} label={{ value: 'cm', position: 'insideTopRight', offset: 10, fill: '#3b82f6', fontSize: 10 }} />
-                                    
-                                    <Tooltip contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', backgroundColor: isDarkMode ? '#1f2937' : '#fff', color: isDarkMode ? '#fff' : '#000'}} />
-                                    <Legend wrapperStyle={{paddingTop: '20px'}} />
-                                    
-                                    <Line yAxisId="left" type="monotone" dataKey="weight" name="Peso (kg)" stroke="#22c55e" strokeWidth={3} dot={{r: 4, fill: '#22c55e', strokeWidth: 2, stroke: isDarkMode ? '#1f2937' : '#fff'}} activeDot={{r: 6}} connectNulls />
-                                    <Line yAxisId="right" type="monotone" dataKey="length" name="Altura (cm)" stroke="#3b82f6" strokeWidth={3} dot={{r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: isDarkMode ? '#1f2937' : '#fff'}} activeDot={{r: 6}} connectNulls />
+                                    <XAxis dataKey="date" tick={{ fontSize: 10, fill: isDarkMode ? '#9ca3af' : '#9ca3af' }} axisLine={false} tickLine={false} />
+
+                                    <YAxis yAxisId="left" orientation="left" stroke="#22c55e" tick={{ fontSize: 10, fill: '#22c55e' }} axisLine={false} tickLine={false} width={30} label={{ value: 'kg', position: 'insideTopLeft', offset: 10, fill: '#22c55e', fontSize: 10 }} />
+                                    <YAxis yAxisId="right" orientation="right" stroke="#3b82f6" tick={{ fontSize: 10, fill: '#3b82f6' }} axisLine={false} tickLine={false} width={30} label={{ value: 'cm', position: 'insideTopRight', offset: 10, fill: '#3b82f6', fontSize: 10 }} />
+
+                                    <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', backgroundColor: isDarkMode ? '#1f2937' : '#fff', color: isDarkMode ? '#fff' : '#000' }} />
+                                    <Legend wrapperStyle={{ paddingTop: '20px' }} />
+
+                                    <Line yAxisId="left" type="monotone" dataKey="weight" name="Peso (kg)" stroke="#22c55e" strokeWidth={3} dot={{ r: 4, fill: '#22c55e', strokeWidth: 2, stroke: isDarkMode ? '#1f2937' : '#fff' }} activeDot={{ r: 6 }} connectNulls />
+                                    <Line yAxisId="right" type="monotone" dataKey="length" name="Altura (cm)" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: isDarkMode ? '#1f2937' : '#fff' }} activeDot={{ r: 6 }} connectNulls />
                                 </ComposedChart>
                             </ResponsiveContainer>
                         ) : <p className="text-center text-gray-400 text-sm py-10">Sem dados de crescimento</p>}
                     </div>
-                 </div>
+                </div>
 
-                 <PlagiocephalyInfo currentAsymmetry={plagioEvent?.plagiocephalyAsymmetry} currentAge={plagioAge} />
+                <PlagiocephalyInfo currentAsymmetry={plagioEvent?.plagiocephalyAsymmetry} currentAge={plagioAge} />
             </div>
         </div>
     )
 }
-const ProfileScreen: FC<{ 
-    profile: BabyProfile, 
-    setProfile: (p: BabyProfile) => void, 
-    setScreen: (s: Screen) => void, 
-    documents: BabyDocument[], 
-    setDocuments: (d: BabyDocument[]) => void 
+const ProfileScreen: FC<{
+    profile: BabyProfile,
+    setProfile: (p: BabyProfile) => void,
+    setScreen: (s: Screen) => void,
+    documents: BabyDocument[],
+    setDocuments: (d: BabyDocument[]) => void
 }> = ({ profile, setProfile, setScreen, documents, setDocuments }) => {
     // ... same as provided ...
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -2711,7 +2711,7 @@ const ProfileScreen: FC<{
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
-            reader.onloadend = () => setProfile({...profile, photo: reader.result as string});
+            reader.onloadend = () => setProfile({ ...profile, photo: reader.result as string });
             reader.readAsDataURL(file);
         }
     };
@@ -2729,7 +2729,7 @@ const ProfileScreen: FC<{
 
     return (
         <div className="flex-grow flex flex-col transition-colors h-full">
-             <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-20">
+            <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-20">
                 <button onClick={() => setScreen('settings')} className="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300">
                     <Icon name="chevron_left" className="w-6 h-6" />
                 </button>
@@ -2738,8 +2738,8 @@ const ProfileScreen: FC<{
             </div>
 
             <div className="p-6 space-y-8 pb-24">
-                 <div className="flex flex-col items-center">
-                     <div className="w-28 h-28 rounded-full bg-gray-100 dark:bg-gray-800 border-4 border-white dark:border-gray-700 shadow-xl flex items-center justify-center overflow-hidden relative group mb-4">
+                <div className="flex flex-col items-center">
+                    <div className="w-28 h-28 rounded-full bg-gray-100 dark:bg-gray-800 border-4 border-white dark:border-gray-700 shadow-xl flex items-center justify-center overflow-hidden relative group mb-4">
                         {profile.photo ? (
                             <img src={profile.photo} alt={profile.name} className="w-full h-full object-cover" />
                         ) : (
@@ -2750,45 +2750,45 @@ const ProfileScreen: FC<{
                         </button>
                     </div>
                     <input type="file" ref={fileInputRef} onChange={handlePhotoUpload} accept="image/*" className="hidden" />
-                    <input 
-                        type="text" 
-                        value={profile.name} 
-                        onChange={e => setProfile({...profile, name: e.target.value})}
+                    <input
+                        type="text"
+                        value={profile.name}
+                        onChange={e => setProfile({ ...profile, name: e.target.value })}
                         className="text-center text-2xl font-bold bg-transparent border-b border-transparent hover:border-gray-300 focus:border-blue-500 outline-none transition-colors text-gray-800 dark:text-white w-full"
                     />
-                 </div>
+                </div>
 
-                 <div className="space-y-4">
-                     <div>
+                <div className="space-y-4">
+                    <div>
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Nascimento</label>
-                        <input 
-                            type="date" 
-                            value={profile.birthDate} 
-                            onChange={e => setProfile({...profile, birthDate: e.target.value})}
+                        <input
+                            type="date"
+                            value={profile.birthDate}
+                            onChange={e => setProfile({ ...profile, birthDate: e.target.value })}
                             className="w-full p-4 bg-white dark:bg-gray-800 rounded-xl text-gray-800 dark:text-white outline-none border border-gray-100 dark:border-gray-700"
                         />
-                     </div>
-                     <div>
+                    </div>
+                    <div>
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Gênero</label>
                         <div className="flex gap-2">
-                             {[
-                                 { id: 'male', label: 'Menino', emoji: '👦' },
-                                 { id: 'female', label: 'Menina', emoji: '👧' }
-                             ].map(opt => (
-                                 <button 
-                                     key={opt.id} 
-                                     onClick={() => setProfile({...profile, gender: opt.id as any})}
-                                     className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${profile.gender === opt.id ? (opt.id === 'male' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'border-pink-500 bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400') : 'border-gray-200 dark:border-gray-700 text-gray-500'}`}
-                                 >
-                                     <span className="text-2xl mb-1">{opt.emoji}</span>
-                                     <span className="text-[10px] font-bold">{opt.label}</span>
-                                 </button>
-                             ))}
+                            {[
+                                { id: 'male', label: 'Menino', emoji: '👦' },
+                                { id: 'female', label: 'Menina', emoji: '👧' }
+                            ].map(opt => (
+                                <button
+                                    key={opt.id}
+                                    onClick={() => setProfile({ ...profile, gender: opt.id as any })}
+                                    className={`flex-1 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${profile.gender === opt.id ? (opt.id === 'male' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'border-pink-500 bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400') : 'border-gray-200 dark:border-gray-700 text-gray-500'}`}
+                                >
+                                    <span className="text-2xl mb-1">{opt.emoji}</span>
+                                    <span className="text-[10px] font-bold">{opt.label}</span>
+                                </button>
+                            ))}
                         </div>
-                     </div>
-                 </div>
+                    </div>
+                </div>
 
-                 <div className="border-t border-gray-200 dark:border-gray-800 pt-6">
+                <div className="border-t border-gray-200 dark:border-gray-800 pt-6">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="font-bold text-gray-800 dark:text-white">Documentos</h3>
                         <button onClick={addDocument} className="text-blue-500 text-sm font-bold bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-full hover:bg-blue-100 transition">+ Adicionar</button>
@@ -2815,13 +2815,151 @@ const ProfileScreen: FC<{
                     ) : (
                         <p className="text-sm text-gray-400 text-center py-4">Nenhum documento salvo.</p>
                     )}
-                 </div>
+                </div>
             </div>
         </div>
     );
 };
 
-const VaccinationScreen: FC<{ setScreen: (s: Screen) => void }> = ({ setScreen }) => {
+const VaccineModal: FC<{
+    isOpen: boolean,
+    onClose: () => void,
+    onSave: (event: LoggedEvent) => void,
+    vaccine: VaccineInfo | null,
+    initialEvent: LoggedEvent | null
+}> = ({ isOpen, onClose, onSave, vaccine, initialEvent }) => {
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
+    const [site, setSite] = useState<'left_arm' | 'right_arm' | 'left_leg' | 'right_leg' | 'mouth'>('left_leg');
+    const [notes, setNotes] = useState('');
+    const [photo, setPhoto] = useState<string | undefined>(undefined);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            if (initialEvent) {
+                const dt = new Date(initialEvent.timestamp);
+                setDate(dt.toISOString().split('T')[0]);
+                setTime(dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
+                setNotes(initialEvent.notes || '');
+                setSite(initialEvent.vaccineSite || 'left_leg');
+                setPhoto(initialEvent.vaccinePhoto);
+            } else {
+                const now = new Date();
+                setDate(now.toISOString().split('T')[0]);
+                setTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
+                // Defaults
+                setNotes('');
+                setSite('left_leg');
+                setPhoto(undefined);
+            }
+        }
+    }, [isOpen, initialEvent, vaccine]);
+
+    if (!isOpen || !vaccine) return null;
+
+    const handleSave = () => {
+        const timestamp = new Date(`${date}T${time}`).toISOString();
+        const event: LoggedEvent = {
+            id: initialEvent ? initialEvent.id : Date.now().toString(),
+            type: 'vaccine',
+            vaccineId: vaccine.id,
+            timestamp,
+            vaccineSite: site,
+            vaccinePhoto: photo,
+            notes: notes ? notes : undefined
+        };
+        onSave(event);
+        onClose();
+    };
+
+    const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => setPhoto(reader.result as string);
+            reader.readAsDataURL(file);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
+            <div className="bg-white dark:bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-bounce-in flex flex-col max-h-[90vh]">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                    <button onClick={onClose} className="text-gray-500">Cancelar</button>
+                    <h2 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
+                        <Icon name="vaccine" className="w-5 h-5 text-blue-500" />
+                        {vaccine.name}
+                    </h2>
+                    <button onClick={handleSave} className="text-blue-500 font-bold">Salvar</button>
+                </div>
+                <div className="p-6 overflow-y-auto space-y-6">
+                    {/* Date & Time */}
+                    <div>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Data e Hora</label>
+                        <div className="flex gap-4">
+                            <input type="date" value={date} onChange={e => setDate(e.target.value)} className="flex-1 p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
+                            <input type="time" value={time} onChange={e => setTime(e.target.value)} className="w-24 p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none" />
+                        </div>
+                    </div>
+
+                    {/* Site Selection */}
+                    <div>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Local de Aplicação</label>
+                        <div className="grid grid-cols-2 gap-2">
+                            {[
+                                { id: 'left_leg', label: 'Perna Esq', icon: '🦵' },
+                                { id: 'right_leg', label: 'Perna Dir', icon: '🦵' },
+                                { id: 'left_arm', label: 'Braço Esq', icon: '💪' },
+                                { id: 'right_arm', label: 'Braço Dir', icon: '💪' },
+                                { id: 'mouth', label: 'Oral', icon: '👄' }
+                            ].map(opt => (
+                                <button
+                                    key={opt.id}
+                                    onClick={() => setSite(opt.id as any)}
+                                    className={`flex items-center gap-2 p-3 rounded-xl border-2 transition-all ${site === opt.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'border-gray-200 dark:border-gray-700 text-gray-500'}`}
+                                >
+                                    <span>{opt.icon}</span>
+                                    <span className="font-bold text-xs">{opt.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Photo */}
+                    <div>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Comprovante / Foto</label>
+                        <div onClick={() => fileInputRef.current?.click()} className="w-full h-32 bg-gray-100 dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors relative overflow-hidden">
+                            {photo ? (
+                                <img src={photo} alt="Comprovante" className="w-full h-full object-cover" />
+                            ) : (
+                                <>
+                                    <Icon name="camera" className="w-8 h-8 text-gray-400 mb-2" />
+                                    <span className="text-xs text-gray-400">Toque para adicionar foto</span>
+                                </>
+                            )}
+                        </div>
+                        <input type="file" ref={fileInputRef} onChange={handlePhotoUpload} accept="image/*" className="hidden" />
+                    </div>
+
+                    <textarea
+                        value={notes}
+                        onChange={e => setNotes(e.target.value)}
+                        placeholder="Lote, laboratório ou observações..."
+                        className="w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-xl outline-none text-sm min-h-[80px]"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const VaccinationScreen: FC<{
+    setScreen: (s: Screen) => void,
+    events: LoggedEvent[],
+    onToggleVaccine: (vaccine: VaccineInfo, existingEvent?: LoggedEvent) => void,
+    onOpenDetails: (vaccine: VaccineInfo, existingEvent?: LoggedEvent) => void
+}> = ({ setScreen, events, onToggleVaccine, onOpenDetails }) => {
     // ... same as provided ...
     const grouped = useMemo(() => {
         const groups: Record<number, VaccineInfo[]> = {};
@@ -2833,34 +2971,73 @@ const VaccinationScreen: FC<{ setScreen: (s: Screen) => void }> = ({ setScreen }
     }, []);
 
     const monthLabels: Record<number, string> = {
-        0: 'Ao Nascer', 2: '2 Meses', 3: '3 Meses', 4: '4 Meses', 5: '5 Meses', 6: '6 Meses', 
+        0: 'Ao Nascer', 2: '2 Meses', 3: '3 Meses', 4: '4 Meses', 5: '5 Meses', 6: '6 Meses',
         9: '9 Meses', 12: '12 Meses (1 ano)', 15: '15 Meses', 48: '4 Anos'
+    };
+
+    const timerRef = useRef<any>(null);
+
+    const handleMouseDown = (vac: VaccineInfo, existingEvent?: LoggedEvent) => {
+        timerRef.current = setTimeout(() => {
+            onOpenDetails(vac, existingEvent);
+            timerRef.current = null;
+        }, 500); // 500ms long press
+    };
+
+    const handleMouseUp = (vac: VaccineInfo, existingEvent?: LoggedEvent) => {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+            // Shorter than 500ms -> toggle
+            onToggleVaccine(vac, existingEvent);
+        }
     };
 
     return (
         <div className="flex-grow flex flex-col transition-colors h-full">
             <Header title="Carteira de Vacinação" onBack={() => setScreen('add-event')} />
-            <div className="p-4 space-y-6 pb-20 overflow-y-auto">
-                {Object.entries(grouped).sort((a,b) => Number(a[0]) - Number(b[0])).map(([month, vaccines]) => (
+            <div className="p-4 space-y-6 pb-20 overflow-y-auto scrollbar-hide">
+                {Object.entries(grouped).sort((a, b) => Number(a[0]) - Number(b[0])).map(([month, vaccines]) => (
                     <div key={month}>
-                        <div className="flex items-center gap-2 mb-3 sticky top-0 bg-gray-100/95 dark:bg-gray-900/95 backdrop-blur py-2 z-10">
+                        <div className="flex items-center gap-2 mb-3 sticky top-0 bg-gray-100/95 dark:bg-gray-900/95 backdrop-blur py-2 z-10 transition-colors">
                             <div className="w-3 h-3 rounded-full bg-blue-500"></div>
                             <h3 className="font-bold text-gray-800 dark:text-white uppercase tracking-wide text-sm">{monthLabels[Number(month)]}</h3>
                         </div>
-                        <div className="space-y-3 pl-2 border-l-2 border-gray-200 dark:border-gray-800 ml-1.5">
-                            {vaccines.map(vac => (
-                                <div key={vac.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700 ml-4 relative">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <h4 className="font-bold text-gray-800 dark:text-white text-sm">{vac.name}</h4>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{vac.description}</p>
+                        <div className="space-y-3 pl-2 border-l-2 border-gray-200 dark:border-gray-800 ml-1.5 transition-colors">
+                            {vaccines.map(vac => {
+                                const existingEvent = events.find(e => e.type === 'vaccine' && e.vaccineId === vac.id);
+                                const isTaken = !!existingEvent;
+
+                                return (
+                                    <div
+                                        key={vac.id}
+                                        onMouseDown={() => handleMouseDown(vac, existingEvent)}
+                                        onMouseUp={() => handleMouseUp(vac, existingEvent)}
+                                        onTouchStart={() => handleMouseDown(vac, existingEvent)}
+                                        onTouchEnd={() => handleMouseUp(vac, existingEvent)}
+                                        className={`p-4 rounded-xl border transition-all ml-4 relative select-none cursor-pointer active:scale-[0.98] ${isTaken ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-900/50' : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700'}`}
+                                    >
+                                        <div className="flex justify-between items-start">
+                                            <div className="pr-8">
+                                                <h4 className={`font-bold text-sm ${isTaken ? 'text-green-700 dark:text-green-300' : 'text-gray-800 dark:text-white'}`}>{vac.name}</h4>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{vac.description}</p>
+                                                {isTaken && existingEvent.vaccineSite && (
+                                                    <p className="text-[10px] text-green-600 dark:text-green-400 mt-1 font-medium bg-green-100 dark:bg-green-900/40 inline-block px-1.5 py-0.5 rounded">
+                                                        {existingEvent.vaccineSite === 'mouth' ? 'Oral' : existingEvent.vaccineSite.replace('_', ' ').replace('arm', 'Braço').replace('leg', 'Perna').replace('left', 'Esq').replace('right', 'Dir')}
+                                                    </p>
+                                                )}
+                                            </div>
+                                            <div className={`absolute right-4 top-1/2 -translate-y-1/2`}>
+                                                {isTaken ? (
+                                                    <Icon name="check_circle" className="w-6 h-6 text-green-500" />
+                                                ) : (
+                                                    <div className="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-600"></div>
+                                                )}
+                                            </div>
                                         </div>
-                                        {vac.isPrivateOnly && (
-                                            <span className="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-[10px] font-bold px-2 py-1 rounded-full">Particular</span>
-                                        )}
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 ))}
@@ -2896,366 +3073,396 @@ const AgendaScreen: FC<{ setScreen: (s: Screen) => void, reminders: Reminder[], 
     };
 
     return (
-         <div className="flex-grow flex flex-col transition-colors h-full">
+        <div className="flex-grow flex flex-col transition-colors h-full">
             <Header title="Agenda & Consultas" onBack={() => setScreen('add-event')} rightAction={
                 <button onClick={() => setIsAdding(true)} className="text-blue-500 font-bold text-sm">+ Novo</button>
             } />
-            
+
             <div className="p-4 space-y-4 pb-20 overflow-y-auto">
-                 {isAdding && (
-                     <div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-100 dark:border-blue-900/30 mb-4 animate-bounce-in">
-                         <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-3">Novo Lembrete</h4>
-                         <input 
-                            placeholder="Título (ex: Pediatra)" 
-                            value={newTitle} 
+                {isAdding && (
+                    <div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-100 dark:border-blue-900/30 mb-4 animate-bounce-in">
+                        <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-3">Novo Lembrete</h4>
+                        <input
+                            placeholder="Título (ex: Pediatra)"
+                            value={newTitle}
                             onChange={e => setNewTitle(e.target.value)}
                             className="w-full p-3 mb-2 rounded-lg border-none outline-none text-sm bg-white dark:bg-gray-800 dark:text-white"
                         />
                         <div className="flex gap-2 mb-3">
-                            <input 
-                                type="date" 
-                                value={newDate} 
+                            <input
+                                type="date"
+                                value={newDate}
                                 onChange={e => setNewDate(e.target.value)}
                                 className="flex-1 p-3 rounded-lg border-none outline-none text-sm bg-white dark:bg-gray-800 dark:text-white"
                             />
-                            <input 
-                                type="time" 
-                                value={newTime} 
+                            <input
+                                type="time"
+                                value={newTime}
                                 onChange={e => setNewTime(e.target.value)}
                                 className="w-24 p-3 rounded-lg border-none outline-none text-sm bg-white dark:bg-gray-800 dark:text-white"
                             />
                         </div>
                         <div className="flex gap-2">
-                             <button onClick={() => setIsAdding(false)} className="flex-1 py-2 text-gray-500 text-sm font-bold">Cancelar</button>
-                             <button onClick={addReminder} className="flex-1 py-2 bg-blue-500 text-white rounded-lg text-sm font-bold shadow-md">Salvar</button>
+                            <button onClick={() => setIsAdding(false)} className="flex-1 py-2 text-gray-500 text-sm font-bold">Cancelar</button>
+                            <button onClick={addReminder} className="flex-1 py-2 bg-blue-500 text-white rounded-lg text-sm font-bold shadow-md">Salvar</button>
                         </div>
-                     </div>
-                 )}
+                    </div>
+                )}
 
-                 {reminders.length === 0 && !isAdding && (
-                      <div className="flex flex-col items-center justify-center h-48 text-gray-400">
+                {reminders.length === 0 && !isAdding && (
+                    <div className="flex flex-col items-center justify-center h-48 text-gray-400">
                         <Icon name="calendar" className="w-12 h-12 mb-2 opacity-50" />
                         <p>Nenhum lembrete futuro</p>
                     </div>
-                 )}
+                )}
 
-                 {[...reminders].sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(reminder => (
-                     <div key={reminder.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700 flex items-center justify-between group">
-                         <div className="flex items-center gap-4">
-                             <div className="flex flex-col items-center bg-gray-50 dark:bg-gray-700/50 p-2 rounded-lg min-w-[50px]">
-                                 <span className="text-xs font-bold text-red-500 uppercase">{new Date(reminder.date).toLocaleDateString('pt-BR', {month: 'short'}).replace('.', '')}</span>
-                                 <span className="text-xl font-bold text-gray-800 dark:text-white">{new Date(reminder.date).getDate()}</span>
-                             </div>
-                             <div>
-                                 <h4 className="font-bold text-gray-800 dark:text-white">{reminder.title}</h4>
-                                 <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                     <Icon name="bell" className="w-3 h-3" />
-                                     {reminder.time}
-                                     {reminder.type === 'vaccine' && <span className="bg-green-100 text-green-600 px-1.5 rounded text-[10px] font-bold ml-1">Vacina</span>}
-                                 </div>
-                             </div>
-                         </div>
-                         <button onClick={() => deleteReminder(reminder.id)} className="p-2 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
-                             <Icon name="trash" className="w-5 h-5" />
-                         </button>
-                     </div>
-                 ))}
+                {[...reminders].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(reminder => (
+                    <div key={reminder.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700 flex items-center justify-between group">
+                        <div className="flex items-center gap-4">
+                            <div className="flex flex-col items-center bg-gray-50 dark:bg-gray-700/50 p-2 rounded-lg min-w-[50px]">
+                                <span className="text-xs font-bold text-red-500 uppercase">{new Date(reminder.date).toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '')}</span>
+                                <span className="text-xl font-bold text-gray-800 dark:text-white">{new Date(reminder.date).getDate()}</span>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-gray-800 dark:text-white">{reminder.title}</h4>
+                                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    <Icon name="bell" className="w-3 h-3" />
+                                    {reminder.time}
+                                    {reminder.type === 'vaccine' && <span className="bg-green-100 text-green-600 px-1.5 rounded text-[10px] font-bold ml-1">Vacina</span>}
+                                </div>
+                            </div>
+                        </div>
+                        <button onClick={() => deleteReminder(reminder.id)} className="p-2 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">
+                            <Icon name="trash" className="w-5 h-5" />
+                        </button>
+                    </div>
+                ))}
             </div>
-         </div>
+        </div>
     )
 }
 
 // -- MAIN APP COMPONENT -- //
 export default function App() {
-  const [screen, setScreen] = useState<Screen>('home');
-  const [profile, setProfile] = useState<BabyProfile>(initialProfile);
-  const [events, setEvents] = useState<LoggedEvent[]>(initialEvents);
-  const [reminders, setReminders] = useState<Reminder[]>(initialReminders);
-  const [documents, setDocuments] = useState<BabyDocument[]>(initialDocuments || []);
-  const [dashboardWidgets, setDashboardWidgets] = useState<DashboardWidget[]>([]); // Default empty as requested
-  const [pinnedMilestones, setPinnedMilestones] = useState<string[]>(['smiled', 'sat_up', 'first_tooth']); // Defaults
-  const [showMilestoneConfig, setShowMilestoneConfig] = useState(false);
+    const [screen, setScreen] = useState<Screen>('home');
+    const [profile, setProfile] = useState<BabyProfile>(initialProfile);
+    const [events, setEvents] = useState<LoggedEvent[]>(initialEvents);
+    const [reminders, setReminders] = useState<Reminder[]>(initialReminders);
+    const [documents, setDocuments] = useState<BabyDocument[]>(initialDocuments || []);
+    const [dashboardWidgets, setDashboardWidgets] = useState<DashboardWidget[]>([]); // Default empty as requested
+    const [pinnedMilestones, setPinnedMilestones] = useState<string[]>(['smiled', 'sat_up', 'first_tooth']); // Defaults
+    const [showMilestoneConfig, setShowMilestoneConfig] = useState(false);
 
-  // Initialize from local storage or default to false
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    try {
-        const saved = localStorage.getItem('appTheme');
-        return saved === 'dark';
-    } catch {
-        return false;
+    // Initialize from local storage or default to false
+    const [darkMode, setDarkMode] = useState<boolean>(() => {
+        try {
+            const saved = localStorage.getItem('appTheme');
+            return saved === 'dark';
+        } catch {
+            return false;
+        }
+    });
+
+    const [editingEvent, setEditingEvent] = useState<LoggedEvent | null>(null);
+    const [showVaccineModal, setShowVaccineModal] = useState(false);
+    const [selectedVaccine, setSelectedVaccine] = useState<VaccineInfo | null>(null);
+
+    const handleToggleVaccine = (vaccine: VaccineInfo, existingEvent?: LoggedEvent) => {
+        if (existingEvent) {
+            deleteEvent(existingEvent.id);
+        } else {
+            const newEvent: LoggedEvent = {
+                id: Date.now().toString(),
+                type: 'vaccine',
+                vaccineId: vaccine.id,
+                timestamp: new Date().toISOString()
+            };
+            addEvent(newEvent);
+        }
+    };
+
+    const handleOpenVaccineDetails = (vaccine: VaccineInfo, existingEvent?: LoggedEvent) => {
+        setSelectedVaccine(vaccine);
+        setEditingEvent(existingEvent || null);
+        setShowVaccineModal(true);
+    };
+
+    // Specific Modals State
+    const [showSleepModal, setShowSleepModal] = useState(false);
+    const [showBreastfeedingModal, setShowBreastfeedingModal] = useState(false);
+    const [showBottleModal, setShowBottleModal] = useState(false);
+    const [showFoodModal, setShowFoodModal] = useState(false);
+    const [showIllnessModal, setShowIllnessModal] = useState(false);
+    const [showDoctorModal, setShowDoctorModal] = useState(false);
+    const [showMeasurementsModal, setShowMeasurementsModal] = useState(false);
+    const [isGenericModalOpen, setIsGenericModalOpen] = useState(false);
+
+    // Persist theme changes
+    useEffect(() => {
+        localStorage.setItem('appTheme', darkMode ? 'dark' : 'light');
+    }, [darkMode]);
+
+    const addEvent = (event: LoggedEvent) => {
+        setEvents(prev => [...prev, event]);
     }
-  });
-  
-  const [editingEvent, setEditingEvent] = useState<LoggedEvent | null>(null);
-  
-  // Specific Modals State
-  const [showSleepModal, setShowSleepModal] = useState(false);
-  const [showBreastfeedingModal, setShowBreastfeedingModal] = useState(false);
-  const [showBottleModal, setShowBottleModal] = useState(false);
-  const [showFoodModal, setShowFoodModal] = useState(false);
-  const [showIllnessModal, setShowIllnessModal] = useState(false);
-  const [showDoctorModal, setShowDoctorModal] = useState(false);
-  const [showMeasurementsModal, setShowMeasurementsModal] = useState(false);
-  const [isGenericModalOpen, setIsGenericModalOpen] = useState(false);
 
-  // Persist theme changes
-  useEffect(() => {
-    localStorage.setItem('appTheme', darkMode ? 'dark' : 'light');
-  }, [darkMode]);
-  
-  const addEvent = (event: LoggedEvent) => {
-      setEvents(prev => [...prev, event]);
-  }
-
-  const addEvents = (newEvents: LoggedEvent[]) => {
-      setEvents(prev => [...prev, ...newEvents]);
-  }
-
-  const updateEvent = (updatedEvent: LoggedEvent) => {
-      setEvents(prev => {
-          const exists = prev.find(e => e.id === updatedEvent.id);
-          if (exists) {
-              return prev.map(e => e.id === updatedEvent.id ? updatedEvent : e);
-          }
-          return [...prev, updatedEvent];
-      });
-  };
-
-  const deleteEvent = (id: string) => {
-      setEvents(prev => prev.filter(e => e.id !== id));
-  }
-  
-  // Handle Save Logic for Modals (Check ID to decide Update vs Create)
-  const handleSaveEvent = (e: LoggedEvent) => {
-      if (events.find(ev => ev.id === e.id)) {
-          updateEvent(e);
-      } else {
-          addEvent(e);
-      }
-      setScreen('home'); // Optional: return to home or stay? User usually expects feedback or close.
-  };
-
-  const handleOpenDetailedModal = (event: LoggedEvent) => {
-      setEditingEvent(event);
-      // Route to specific modal based on type
-      switch (event.type) {
-          case 'sleep':
-              setShowSleepModal(true);
-              break;
-          case 'breastfeeding':
-              setShowBreastfeedingModal(true);
-              break;
-          case 'bottle':
-              setShowBottleModal(true);
-              break;
-          case 'baby_food':
-              setShowFoodModal(true);
-              break;
-          case 'illness':
-              setShowIllnessModal(true);
-              break;
-          case 'doctor':
-              setShowDoctorModal(true);
-              break;
-          // Note: Measurements (weight/length) are tricky as they might come from a combined modal or single entry.
-          // For simple editing, generic modal is often safer unless we split logic. 
-          // Given the prompt request to match "Add" experience, we'd need a specific modal if it exists.
-          // Since MeasurementsModal handles BOTH, opening it for ONE event is weird but let's default to generic for now unless type is 'measurements'.
-          default:
-              setIsGenericModalOpen(true);
-              break;
-      }
-  };
-  
-  const renderScreen = () => {
-    switch (screen) {
-      case 'home': return <HomeScreen 
-          profile={profile} 
-          setScreen={setScreen} 
-          events={events} 
-          reminders={reminders} 
-          widgets={dashboardWidgets} 
-          setWidgets={setDashboardWidgets} 
-          openEventModal={handleOpenDetailedModal} 
-          pinnedMilestones={pinnedMilestones}
-          onConfigMilestones={() => setShowMilestoneConfig(true)}
-      />;
-      case 'diary': return <DiaryScreen events={events} onEditEvent={handleOpenDetailedModal} />;
-      case 'stats': return <StatsScreen events={events} isDarkMode={darkMode} setScreen={setScreen} profile={profile} />;
-      case 'settings': return <SettingsScreen profile={profile} setProfile={setProfile} setScreen={setScreen} darkMode={darkMode} setDarkMode={setDarkMode} />;
-      case 'add-event': return <AddEventScreen 
-            setScreen={setScreen} 
-            addEvent={addEvent} 
-            openModal={handleOpenDetailedModal} 
-            onSleepClick={() => { setEditingEvent(null); setShowSleepModal(true); }} 
-            onBreastfeedingClick={() => { setEditingEvent(null); setShowBreastfeedingModal(true); }}
-            onBottleClick={() => { setEditingEvent(null); setShowBottleModal(true); }}
-            onFoodClick={() => { setEditingEvent(null); setShowFoodModal(true); }}
-            onIllnessClick={() => { setEditingEvent(null); setShowIllnessModal(true); }}
-            onDoctorClick={() => { setEditingEvent(null); setShowDoctorModal(true); }}
-            onMeasurementsClick={() => { setEditingEvent(null); setShowMeasurementsModal(true); }}
-            pinnedMilestones={pinnedMilestones}
-            setPinnedMilestones={setPinnedMilestones}
-        />;
-      case 'profile': return <ProfileScreen profile={profile} setProfile={setProfile} setScreen={setScreen} documents={documents} setDocuments={setDocuments} />;
-      case 'vaccination': return <VaccinationScreen setScreen={setScreen} />;
-      case 'agenda': return <AgendaScreen setScreen={setScreen} reminders={reminders} setReminders={setReminders} />;
-      default: return <HomeScreen 
-          profile={profile} 
-          setScreen={setScreen} 
-          events={events} 
-          reminders={reminders} 
-          widgets={dashboardWidgets} 
-          setWidgets={setDashboardWidgets} 
-          openEventModal={handleOpenDetailedModal} 
-          pinnedMilestones={pinnedMilestones}
-          onConfigMilestones={() => setShowMilestoneConfig(true)}
-      />;
+    const addEvents = (newEvents: LoggedEvent[]) => {
+        setEvents(prev => [...prev, ...newEvents]);
     }
-  };
 
-  const getBackgroundClass = () => {
-      if (darkMode) return 'dark:bg-gray-950';
-      // Use themeColor instead of gender
-      switch (profile.themeColor) {
-          case 'blue': return 'bg-pattern-blue';
-          case 'pink': return 'bg-pattern-pink';
-          case 'green': return 'bg-pattern-green';
-          case 'purple': return 'bg-pattern-purple';
-          default: return 'bg-pattern-neutral';
-      }
-  }
+    const updateEvent = (updatedEvent: LoggedEvent) => {
+        setEvents(prev => {
+            const exists = prev.find(e => e.id === updatedEvent.id);
+            if (exists) {
+                return prev.map(e => e.id === updatedEvent.id ? updatedEvent : e);
+            }
+            return [...prev, updatedEvent];
+        });
+    };
 
-  return (
-    <div className={`${darkMode ? 'dark' : ''}`}>
-        <div className="bg-gray-100 dark:bg-gray-900 flex justify-center items-center min-h-screen font-sans antialiased text-gray-900 dark:text-white transition-colors">
-        <div className="relative w-full max-w-md h-[844px] max-h-screen sm:rounded-[3rem] sm:border-[8px] sm:border-gray-900 dark:sm:border-gray-800 shadow-2xl overflow-hidden flex flex-col transition-colors">
-            {/* Status Bar Placeholder (Simulated) */}
-            <div className={`h-8 w-full flex justify-between items-center px-6 pt-2 z-30 transition-colors ${darkMode ? 'bg-gray-900' : 'bg-white/80 backdrop-blur-md'}`}>
-                <span className="text-[10px] font-bold text-black dark:text-white">9:41</span>
-                <div className="flex space-x-1">
-                    <div className="w-4 h-2.5 bg-black dark:bg-white rounded-sm"></div>
-                    <div className="w-0.5 h-2.5 bg-black dark:bg-white rounded-sm"></div>
+    const deleteEvent = (id: string) => {
+        setEvents(prev => prev.filter(e => e.id !== id));
+    }
+
+    // Handle Save Logic for Modals (Check ID to decide Update vs Create)
+    const handleSaveEvent = (e: LoggedEvent) => {
+        if (events.find(ev => ev.id === e.id)) {
+            updateEvent(e);
+        } else {
+            addEvent(e);
+        }
+        setScreen('home'); // Optional: return to home or stay? User usually expects feedback or close.
+    };
+
+    const handleOpenDetailedModal = (event: LoggedEvent) => {
+        setEditingEvent(event);
+        // Route to specific modal based on type
+        switch (event.type) {
+            case 'sleep':
+                setShowSleepModal(true);
+                break;
+            case 'breastfeeding':
+                setShowBreastfeedingModal(true);
+                break;
+            case 'bottle':
+                setShowBottleModal(true);
+                break;
+            case 'baby_food':
+                setShowFoodModal(true);
+                break;
+            case 'illness':
+                setShowIllnessModal(true);
+                break;
+            case 'doctor':
+                setShowDoctorModal(true);
+                break;
+            // Note: Measurements (weight/length) are tricky as they might come from a combined modal or single entry.
+            // For simple editing, generic modal is often safer unless we split logic. 
+            // Given the prompt request to match "Add" experience, we'd need a specific modal if it exists.
+            // Since MeasurementsModal handles BOTH, opening it for ONE event is weird but let's default to generic for now unless type is 'measurements'.
+            default:
+                setIsGenericModalOpen(true);
+                break;
+        }
+    };
+
+    const renderScreen = () => {
+        switch (screen) {
+            case 'home': return <HomeScreen
+                profile={profile}
+                setScreen={setScreen}
+                events={events}
+                reminders={reminders}
+                widgets={dashboardWidgets}
+                setWidgets={setDashboardWidgets}
+                openEventModal={handleOpenDetailedModal}
+                pinnedMilestones={pinnedMilestones}
+                onConfigMilestones={() => setShowMilestoneConfig(true)}
+            />;
+            case 'diary': return <DiaryScreen events={events} onEditEvent={handleOpenDetailedModal} />;
+            case 'stats': return <StatsScreen events={events} isDarkMode={darkMode} setScreen={setScreen} profile={profile} />;
+            case 'settings': return <SettingsScreen profile={profile} setProfile={setProfile} setScreen={setScreen} darkMode={darkMode} setDarkMode={setDarkMode} />;
+            case 'add-event': return <AddEventScreen
+                setScreen={setScreen}
+                addEvent={addEvent}
+                openModal={handleOpenDetailedModal}
+                onSleepClick={() => { setEditingEvent(null); setShowSleepModal(true); }}
+                onBreastfeedingClick={() => { setEditingEvent(null); setShowBreastfeedingModal(true); }}
+                onBottleClick={() => { setEditingEvent(null); setShowBottleModal(true); }}
+                onFoodClick={() => { setEditingEvent(null); setShowFoodModal(true); }}
+                onIllnessClick={() => { setEditingEvent(null); setShowIllnessModal(true); }}
+                onDoctorClick={() => { setEditingEvent(null); setShowDoctorModal(true); }}
+                onMeasurementsClick={() => { setEditingEvent(null); setShowMeasurementsModal(true); }}
+                pinnedMilestones={pinnedMilestones}
+                setPinnedMilestones={setPinnedMilestones}
+            />;
+            case 'profile': return <ProfileScreen profile={profile} setProfile={setProfile} setScreen={setScreen} documents={documents} setDocuments={setDocuments} />;
+            case 'vaccination': return <VaccinationScreen setScreen={setScreen} events={events} onToggleVaccine={handleToggleVaccine} onOpenDetails={handleOpenVaccineDetails} />;
+            case 'agenda': return <AgendaScreen setScreen={setScreen} reminders={reminders} setReminders={setReminders} />;
+            default: return <HomeScreen
+                profile={profile}
+                setScreen={setScreen}
+                events={events}
+                reminders={reminders}
+                widgets={dashboardWidgets}
+                setWidgets={setDashboardWidgets}
+                openEventModal={handleOpenDetailedModal}
+                pinnedMilestones={pinnedMilestones}
+                onConfigMilestones={() => setShowMilestoneConfig(true)}
+            />;
+        }
+    };
+
+    const getBackgroundClass = () => {
+        if (darkMode) return 'dark:bg-gray-950';
+        // Use themeColor instead of gender
+        switch (profile.themeColor) {
+            case 'blue': return 'bg-pattern-blue';
+            case 'pink': return 'bg-pattern-pink';
+            case 'green': return 'bg-pattern-green';
+            case 'purple': return 'bg-pattern-purple';
+            default: return 'bg-pattern-neutral';
+        }
+    }
+
+    return (
+        <div className={`${darkMode ? 'dark' : ''}`}>
+            <div className="bg-gray-100 dark:bg-gray-900 flex justify-center items-center min-h-screen font-sans antialiased text-gray-900 dark:text-white transition-colors">
+                <div className="relative w-full max-w-md h-[844px] max-h-screen sm:rounded-[3rem] sm:border-[8px] sm:border-gray-900 dark:sm:border-gray-800 shadow-2xl overflow-hidden flex flex-col transition-colors">
+                    {/* Status Bar Placeholder (Simulated) */}
+                    <div className={`h-8 w-full flex justify-between items-center px-6 pt-2 z-30 transition-colors ${darkMode ? 'bg-gray-900' : 'bg-white/80 backdrop-blur-md'}`}>
+                        <span className="text-[10px] font-bold text-black dark:text-white">9:41</span>
+                        <div className="flex space-x-1">
+                            <div className="w-4 h-2.5 bg-black dark:bg-white rounded-sm"></div>
+                            <div className="w-0.5 h-2.5 bg-black dark:bg-white rounded-sm"></div>
+                        </div>
+                    </div>
+
+                    <div className={`flex-grow overflow-y-auto scrollbar-hide relative transition-all duration-300 ${getBackgroundClass()}`}>
+                        {renderScreen()}
+                    </div>
+
+                    {!['add-event', 'profile', 'vaccination', 'agenda'].includes(screen) && (
+                        <BottomNav active={screen} setActive={setScreen} profile={profile} />
+                    )}
+
+                    {/* Home Indicator (iPhone style) */}
+                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gray-300 dark:bg-gray-600 rounded-full z-50 pointer-events-none"></div>
+
+                    {/* Global Smart Modal (Handles generic edits and simpler events) */}
+                    <EventModal
+                        isOpen={isGenericModalOpen}
+                        initialEvent={editingEvent}
+                        onClose={() => { setIsGenericModalOpen(false); setEditingEvent(null); }}
+                        onSave={handleSaveEvent}
+                        onDelete={deleteEvent}
+                        profile={profile}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                        widgets={dashboardWidgets}
+                        setWidgets={setDashboardWidgets}
+                    />
+
+                    {/* Specific Modals */}
+                    <SleepModal
+                        isOpen={showSleepModal}
+                        initialEvent={editingEvent}
+                        onClose={() => { setShowSleepModal(false); setEditingEvent(null); }}
+                        onSave={handleSaveEvent}
+                        onDelete={deleteEvent}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                        widgets={dashboardWidgets}
+                        setWidgets={setDashboardWidgets}
+                    />
+
+                    <BreastfeedingModal
+                        isOpen={showBreastfeedingModal}
+                        initialEvent={editingEvent}
+                        onClose={() => { setShowBreastfeedingModal(false); setEditingEvent(null); }}
+                        onSave={handleSaveEvent}
+                        onDelete={deleteEvent}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                        widgets={dashboardWidgets}
+                        setWidgets={setDashboardWidgets}
+                    />
+
+                    <BottleModal
+                        isOpen={showBottleModal}
+                        initialEvent={editingEvent}
+                        onClose={() => { setShowBottleModal(false); setEditingEvent(null); }}
+                        onSave={handleSaveEvent}
+                        onDelete={deleteEvent}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                        widgets={dashboardWidgets}
+                        setWidgets={setDashboardWidgets}
+                    />
+
+                    <FoodModal
+                        isOpen={showFoodModal}
+                        initialEvent={editingEvent}
+                        onClose={() => { setShowFoodModal(false); setEditingEvent(null); }}
+                        onSave={handleSaveEvent}
+                        onDelete={deleteEvent}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                        widgets={dashboardWidgets}
+                        setWidgets={setDashboardWidgets}
+                    />
+
+                    <IllnessModal
+                        isOpen={showIllnessModal}
+                        initialEvent={editingEvent}
+                        onClose={() => { setShowIllnessModal(false); setEditingEvent(null); }}
+                        onSave={handleSaveEvent}
+                        onDelete={deleteEvent}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                        widgets={dashboardWidgets}
+                        setWidgets={setDashboardWidgets}
+                    />
+
+                    <DoctorModal
+                        isOpen={showDoctorModal}
+                        initialEvent={editingEvent}
+                        onClose={() => { setShowDoctorModal(false); setEditingEvent(null); }}
+                        onSave={handleSaveEvent}
+                        onDelete={deleteEvent}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                        widgets={dashboardWidgets}
+                        setWidgets={setDashboardWidgets}
+                    />
+
+                    <MeasurementsModal
+                        isOpen={showMeasurementsModal}
+                        onClose={() => setShowMeasurementsModal(false)}
+                        onSave={(newEvents) => { addEvents(newEvents); setScreen('home'); }}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                        widgets={dashboardWidgets}
+                        setWidgets={setDashboardWidgets}
+                    />
+
+                    {/* Milestone Configuration Modal */}
+                    <MilestoneConfigModal
+                        isOpen={showMilestoneConfig}
+                        onClose={() => setShowMilestoneConfig(false)}
+                        pinnedMilestones={pinnedMilestones}
+                        setPinnedMilestones={setPinnedMilestones}
+                    />
+
+                    <VaccineModal
+                        isOpen={showVaccineModal}
+                        onClose={() => { setShowVaccineModal(false); setEditingEvent(null); }}
+                        onSave={handleSaveEvent}
+                        vaccine={selectedVaccine}
+                        initialEvent={editingEvent}
+                    />
                 </div>
             </div>
-
-            <div className={`flex-grow overflow-y-auto scrollbar-hide relative transition-all duration-300 ${getBackgroundClass()}`}>
-            {renderScreen()}
-            </div>
-            
-            {!['add-event', 'profile', 'vaccination', 'agenda'].includes(screen) && (
-                <BottomNav active={screen} setActive={setScreen} profile={profile} />
-            )}
-            
-            {/* Home Indicator (iPhone style) */}
-            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gray-300 dark:bg-gray-600 rounded-full z-50 pointer-events-none"></div>
-
-            {/* Global Smart Modal (Handles generic edits and simpler events) */}
-            <EventModal 
-                isOpen={isGenericModalOpen} 
-                initialEvent={editingEvent}
-                onClose={() => { setIsGenericModalOpen(false); setEditingEvent(null); }}
-                onSave={handleSaveEvent}
-                onDelete={deleteEvent}
-                profile={profile}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-                widgets={dashboardWidgets}
-                setWidgets={setDashboardWidgets}
-            />
-
-            {/* Specific Modals */}
-            <SleepModal 
-                isOpen={showSleepModal}
-                initialEvent={editingEvent}
-                onClose={() => { setShowSleepModal(false); setEditingEvent(null); }}
-                onSave={handleSaveEvent}
-                onDelete={deleteEvent}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-                widgets={dashboardWidgets}
-                setWidgets={setDashboardWidgets}
-            />
-
-            <BreastfeedingModal 
-                isOpen={showBreastfeedingModal}
-                initialEvent={editingEvent}
-                onClose={() => { setShowBreastfeedingModal(false); setEditingEvent(null); }}
-                onSave={handleSaveEvent}
-                onDelete={deleteEvent}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-                widgets={dashboardWidgets}
-                setWidgets={setDashboardWidgets}
-            />
-
-            <BottleModal 
-                isOpen={showBottleModal}
-                initialEvent={editingEvent}
-                onClose={() => { setShowBottleModal(false); setEditingEvent(null); }}
-                onSave={handleSaveEvent}
-                onDelete={deleteEvent}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-                widgets={dashboardWidgets}
-                setWidgets={setDashboardWidgets}
-            />
-
-            <FoodModal 
-                isOpen={showFoodModal}
-                initialEvent={editingEvent}
-                onClose={() => { setShowFoodModal(false); setEditingEvent(null); }}
-                onSave={handleSaveEvent}
-                onDelete={deleteEvent}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-                widgets={dashboardWidgets}
-                setWidgets={setDashboardWidgets}
-            />
-
-            <IllnessModal 
-                isOpen={showIllnessModal}
-                initialEvent={editingEvent}
-                onClose={() => { setShowIllnessModal(false); setEditingEvent(null); }}
-                onSave={handleSaveEvent}
-                onDelete={deleteEvent}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-                widgets={dashboardWidgets}
-                setWidgets={setDashboardWidgets}
-            />
-
-            <DoctorModal 
-                isOpen={showDoctorModal}
-                initialEvent={editingEvent}
-                onClose={() => { setShowDoctorModal(false); setEditingEvent(null); }}
-                onSave={handleSaveEvent}
-                onDelete={deleteEvent}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-                widgets={dashboardWidgets}
-                setWidgets={setDashboardWidgets}
-            />
-
-            <MeasurementsModal 
-                isOpen={showMeasurementsModal}
-                onClose={() => setShowMeasurementsModal(false)}
-                onSave={(newEvents) => { addEvents(newEvents); setScreen('home'); }}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-                widgets={dashboardWidgets}
-                setWidgets={setDashboardWidgets}
-            />
-            
-            {/* Milestone Configuration Modal */}
-            <MilestoneConfigModal 
-                isOpen={showMilestoneConfig}
-                onClose={() => setShowMilestoneConfig(false)}
-                pinnedMilestones={pinnedMilestones}
-                setPinnedMilestones={setPinnedMilestones}
-            />
         </div>
-        </div>
-    </div>
-  );
+    );
 }

@@ -26,7 +26,7 @@ export interface DashboardWidget {
 
 export type EventCategory = 'food' | 'activity' | 'growth' | 'health' | 'milestone';
 
-export type EventType = 
+export type EventType =
   // Food
   'breastfeeding' | 'bottle' | 'baby_food' | 'pumping' |
   // Activity
@@ -48,7 +48,7 @@ export interface LoggedEvent {
   // New fields for detailed events
   attachments?: ('photo' | 'audio' | 'video')[];
   attachmentData?: string; // Base64 for a single photo for simplicity in this demo
-  
+
   // Sleep specific fields
   startTime?: string; // ISO date string
   endTime?: string; // ISO date string
@@ -89,7 +89,9 @@ export interface LoggedEvent {
   visitReason?: string;
 
   // Vaccine specific fields
-  vaccineId?: string;
+  vaccineId?: string; // ID from VACCINATION_SCHEDULE
+  vaccineSite?: 'left_arm' | 'right_arm' | 'left_leg' | 'right_leg' | 'mouth';
+  vaccinePhoto?: string; // Base64
 
   // Plagiocephaly specific fields
   plagiocephalyAsymmetry?: number; // mm
