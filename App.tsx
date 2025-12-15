@@ -211,8 +211,8 @@ const initialDocuments: BabyDocument[] = [
 // -- HELPER FUNCTIONS -- //
 const calculateAge = (birthDateString: string, targetDateString: string = new Date().toISOString()): string => {
     if (!birthDateString) return "";
-    const birthDate = new Date(birthDateString.replace(/-/g, '/'));
-    const targetDate = new Date(targetDateString.replace(/-/g, '/'));
+    const birthDate = new Date(birthDateString); // Removed incomplete regex replace, trust standard parsing
+    const targetDate = new Date(targetDateString);
 
     if (isNaN(birthDate.getTime()) || isNaN(targetDate.getTime())) return "";
 
@@ -243,8 +243,8 @@ const calculateAge = (birthDateString: string, targetDateString: string = new Da
 
 const calculateAgeInMonths = (birthDateString: string, targetDateString: string = new Date().toISOString()): number => {
     if (!birthDateString) return 0;
-    const birthDate = new Date(birthDateString.replace(/-/g, '/'));
-    const targetDate = new Date(targetDateString.replace(/-/g, '/'));
+    const birthDate = new Date(birthDateString);
+    const targetDate = new Date(targetDateString);
 
     if (isNaN(birthDate.getTime()) || isNaN(targetDate.getTime())) return 0;
 
@@ -3145,13 +3145,35 @@ const AgendaScreen: FC<{ setScreen: (s: Screen) => void, reminders: Reminder[], 
 // -- MAIN APP COMPONENT -- //
 export default function App() {
     const [screen, setScreen] = useState<Screen>('home');
-    const [profile, setProfile] = useState<BabyProfile>(initialProfile);
-    const [events, setEvents] = useState<LoggedEvent[]>(initialEvents);
-    const [reminders, setReminders] = useState<Reminder[]>(initialReminders);
-    const [documents, setDocuments] = useState<BabyDocument[]>(initialDocuments || []);
-    const [dashboardWidgets, setDashboardWidgets] = useState<DashboardWidget[]>([]); // Default empty as requested
-    const [pinnedMilestones, setPinnedMilestones] = useState<string[]>(['smiled', 'sat_up', 'first_tooth']); // Defaults
+
+    // Persistence Helpers
+    const loadState = <T,>(key: string, fallback: T): T => {
+        try {
+            const saved = localStorage.getItem(key);
+            return saved ? JSON.parse(saved) : fallback;
+        } catch (e) {
+            console.error(`Failed to load ${key}`, e);
+            return fallback;
+        }
+    };
+
+    // State Initialization
+    const [profile, setProfile] = useState<BabyProfile>(() => loadState('baby_profile', initialProfile));
+    const [events, setEvents] = useState<LoggedEvent[]>(() => loadState('baby_events', initialEvents));
+    const [reminders, setReminders] = useState<Reminder[]>(() => loadState('baby_reminders', initialReminders));
+    const [documents, setDocuments] = useState<BabyDocument[]>(() => loadState('baby_documents', initialDocuments || []));
+    const [dashboardWidgets, setDashboardWidgets] = useState<DashboardWidget[]>(() => loadState('baby_dashboard_widgets', []));
+    const [pinnedMilestones, setPinnedMilestones] = useState<string[]>(() => loadState('baby_pinned_milestones', ['smiled', 'sat_up', 'first_tooth']));
+
     const [showMilestoneConfig, setShowMilestoneConfig] = useState(false);
+
+    // Persistence Effects
+    useEffect(() => { localStorage.setItem('baby_profile', JSON.stringify(profile)); }, [profile]);
+    useEffect(() => { localStorage.setItem('baby_events', JSON.stringify(events)); }, [events]);
+    useEffect(() => { localStorage.setItem('baby_reminders', JSON.stringify(reminders)); }, [reminders]);
+    useEffect(() => { localStorage.setItem('baby_documents', JSON.stringify(documents)); }, [documents]);
+    useEffect(() => { localStorage.setItem('baby_dashboard_widgets', JSON.stringify(dashboardWidgets)); }, [dashboardWidgets]);
+    useEffect(() => { localStorage.setItem('baby_pinned_milestones', JSON.stringify(pinnedMilestones)); }, [pinnedMilestones]);
 
     // Initialize from local storage or default to false
     const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -3196,6 +3218,26 @@ export default function App() {
     const [showDoctorModal, setShowDoctorModal] = useState(false);
     const [showMeasurementsModal, setShowMeasurementsModal] = useState(false);
     const [isGenericModalOpen, setIsGenericModalOpen] = useState(false);
+
+    // Navigation Handling
+    useEffect(() => {
+        // Push state when screen changes to something other than home
+        if (screen !== 'home') {
+            window.history.pushState({ screen }, '', `?screen=${screen}`);
+        }
+    }, [screen]);
+
+    useEffect(() => {
+        const handlePopState = (event: PopStateEvent) => {
+            // If we pop back, checking if we should go home or handle other history
+            if (screen !== 'home') {
+                setScreen('home');
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, [screen]);
 
     // Persist theme changes
     useEffect(() => {
