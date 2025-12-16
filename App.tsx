@@ -3,6 +3,7 @@ import React, { useState, useMemo, FC, useEffect, useRef } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ReferenceArea, ComposedChart, Scatter, LabelList } from 'recharts';
 import type { Screen, BabyProfile, LoggedEvent, EventType, EventDefinition, Reminder, VaccineInfo, EventCategory, BabyDocument, DashboardWidget, WidgetType } from './types';
 import { Icon } from './components/icons';
+import { AuthScreen } from './components/Auth';
 
 // -- MOCK DATA & CONSTANTS -- //
 
@@ -3145,6 +3146,7 @@ const AgendaScreen: FC<{ setScreen: (s: Screen) => void, reminders: Reminder[], 
 // -- MAIN APP COMPONENT -- //
 export default function App() {
     const [screen, setScreen] = useState<Screen>('home');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     // Persistence Helpers
     const loadState = <T,>(key: string, fallback: T): T => {
@@ -3365,6 +3367,10 @@ export default function App() {
             case 'purple': return 'bg-pattern-purple';
             default: return 'bg-pattern-neutral';
         }
+    }
+
+    if (!isAuthenticated) {
+        return <AuthScreen onLogin={() => setIsAuthenticated(true)} />;
     }
 
     return (
